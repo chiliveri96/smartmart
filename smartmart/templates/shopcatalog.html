@@ -1,0 +1,871 @@
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% comment %} {% for category in categories %}
+            <form action="{% url '' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category" value="{{ category.category_name }}"> {% endcomment %}
+                {% comment %} <button type="submit" class="category-btn">{{ category.category_name }}</button>  {% endcomment %}
+            {% comment %} </form> 
+        {% endfor %} {% endcomment %}
+          
+    {% comment %} {% if error_message1 %}
+    <div class="error">{{ error_message1 }}</div>
+{% endif %} 
+<form action="{% url 'display_products' %}" method="post">
+    {% csrf_token %}
+<ul class="category-list">
+    {% for category in categories %}
+        <li class="category-item">
+            {% comment %} <h3>{{ category.category_name }}</h3> 
+            <button type="submit" class="category-btn">{{ category.category_name }}</button> 
+        </li>
+    {% endfor %}
+</ul>
+</form>
+    </div>
+</body>
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .category-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .category-item h3 {
+            margin: 0;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shop Categories</h1>
+    
+    {% if error_message1 %}
+        <div class="error">{{ error_message1 }}</div>
+    {% endif %}
+    
+    <ul class="category-list">
+        {% for category in categories %}
+            <li class="category-item">
+                <h3>{{ category.category_name }}</h3>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+{% comment %} </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Category</h1>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'display_products' %}" method="post">
+                {% comment %} <form action="{% url 'display_productsatshopowner' %}" method="post"> {% endcomment %
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+
+        {% endfor %}
+    </div>
+    {% comment %} <a href="/checkboxcategory">Add categories</a> {% endcomment %}
+    {% comment %} <a href="/welcome_page_to_owner({{shop_email}})">home</a> {% endcomment %}
+    
+    {% comment %} <a href="{% url 'shopownerprofile_op' %}">Home</a> {% endcomment %
+</body>
+</html>
+ {% endcomment %}
+{% comment %} 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .category-container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Category</h1>
+    <div class="category-container">
+        {% for category in categories %}
+            <form action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{%load static%}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .header {
+            width: 100%;
+           
+            color: black;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:300px;
+        }
+        .header img {
+            height: 150px;
+            margin-right: 10px;
+            width: 180px;
+            cursor: pointer;
+            border-radius: 180px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .category-form {
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .category-form:hover {
+            transform: scale(1.05);
+        }
+        .category-form img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .category-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .category-form {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <h2>Select Category</h2>
+    <div class="category-container">
+        {% for category in categories %}
+            <form class="category-form" action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header img {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .category-form {
+            flex: 1 0 30%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .category-form:hover {
+            transform: scale(1.05);
+        }
+        .category-form img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .category-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .category-form {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <h2>Select Category</h2>
+    <div class="category-container">
+        {% for category in categories %}
+            <form class="category-form" action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header img {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .category-form {
+            flex: 1 0 30%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 250px;
+        }
+        .category-form:hover {
+            transform: scale(1.05);
+        }
+        .category-form img {
+            max-width: 150px;
+            height: 75%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .category-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .category-form {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <h2>Select Category</h2>
+    <div class="category-container">
+        {% for category in categories %}
+            <form class="category-form" action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header img {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+        }
+        .category-form {
+            flex: 1 0 30%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 300px; /* Adjusted height */
+        }
+        .category-form:hover {
+            transform: scale(1.05);
+        }
+        .category-form img {
+            max-width: 100%;
+            max-height: 75%; /* Allow full image display without cutting */
+            border-radius: 5px;
+            margin-bottom: 15px;
+            object-fit: contain; /* Ensure image is fully displayed without cutting */
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .category-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .category-form {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <h2>Select Category</h2>
+    <div class="category-container">
+        {% for category in categories %}
+            <form class="category-form" action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Added for positioning the back button */
+        }
+        .header img {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .back-button {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+        }
+        .category-form {
+            flex: 1 0 30%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 300px; /* Adjusted height */
+        }
+        .category-form:hover {
+            transform: scale(1.05);
+        }
+        .category-form img {
+            max-width: 100%;
+            max-height: 75%; /* Allow full image display without cutting */
+            border-radius: 5px;
+            margin-bottom: 15px;
+            object-fit: contain; /* Ensure image is fully displayed without cutting */
+        }
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category-btn:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .category-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .category-form {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+        <a href="/maps" class="back-button">Back to maps</a>
+    </div>
+    <h2>Select Category from {{shop.s_name}}</h2>
+    <div class="category-container">
+        {% for category in categories %}
+            <form class="category-form" action="{% url 'display_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html>

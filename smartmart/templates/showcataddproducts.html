@@ -1,0 +1,220 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'checkboxproducts' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="category_id" value="{{ category.category_id }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'checkboxproducts' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="category_id" value="{{ category.category_id }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'checkboxproducts' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="category_id" value="{{ category.category_id }}">
+                <button type="submit" class="category-btn" name="selected_category" value="{{ category.category_id }}">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'checkboxproducts' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category" value="{{ category.category_id }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'store_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category" value="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Categories</title>
+    <style>
+        .category-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shop Categories</h2>
+    <div>
+        {% for category in categories %}
+            <form action="{% url 'select_products' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="selected_category" value="{{ category.category_name }}">
+                <button type="submit" class="category-btn">{{ category.category_name }}</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html>

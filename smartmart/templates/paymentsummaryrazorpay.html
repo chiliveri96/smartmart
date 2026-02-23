@@ -1,0 +1,383 @@
+{% comment %} {% extends 'first.html' %}
+{% load static %}
+{% block title %}
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="info">
+  <div class="container">
+    <h1 style="text-align:center;">Payment Summary</h1>
+    Total Amount - {{amount}}
+    <br>
+    <button id="rzp-button1" class="btn btn-lg btn-primary btn-block" type="button">Pay Now</button>
+  </div>
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
+    "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "WonderShop",
+    "description": "Test Transaction",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "{{callback_url}}",
+    "prefill": {
+      "name": "{{request.user.name}}",
+      "email": "{{request.user.email}}",
+      "contact": "+91" + "{{request.user.phone}}"
+    },
+    "theme": {
+      "color": "#2BA977"
+    },
+            "method": {
+                "netbanking": true,
+                "card": true,
+                "upi": true,
+                "wallet": true,
+                "qr": true
+            }
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById('rzp-button1').onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
+{% endblock %} {% endcomment %}
+{% comment %} 
+<button id="rzp-button1">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
+    "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script> {% endcomment %}
+
+{% comment %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Summary</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Summary</h1>
+        <p>Total Amount - {{ final_price }}</p>
+        <button id="rzp-button1" class="btn btn-lg btn-primary btn-block" type="button">Pay Now</button>
+    </div> {% endcomment %}
+    {% comment %} {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Summary</title>
+        <style>
+            .container {
+                text-align: center;
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Payment Summary</h1>
+            <p>Total Amount - {{ final_price }}</p>
+            <button id="rzp-button1" class="btn btn-lg btn-primary btn-block" type="button">Pay Now</button>
+        </div>
+    
+        {% comment %} <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            /*{% comment %} {% comment %} var options = {
+                "key": "{{ razorpay_merchant_id }}", 
+                "amount": "{{ final_price|floatformat:0|mul:100 }}", 
+                "currency": "INR",
+                "name": "WonderShop",
+                "description": "Test Transaction",
+                "order_id": "{{ order_id }}", 
+                "callback_url": "{{ callback_url }}",
+                "prefill": {
+                    "name": "{{ request.user.get_full_name }}",
+                    "email": "{{ request.user.email }}",
+                    "contact": "{{ request.user.profile.phone_number }}"
+                }, {% endcomm*/
+                var options = {
+                  "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
+                  "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                  "currency": "INR",
+                  "name": "WonderShop",
+                  "description": "Test Transaction",
+                  "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                  "callback_url": "{{callback_url}}",
+                  "prefill": {
+                    "name": "{{request.user.name}}",
+                    "email": "{{request.user.email}}",
+                    "contact": "+91" + "{{request.user.phone}}"
+                  },
+                "theme": {
+                    "color": "#2BA977"
+                },
+                "method": {
+                    "netbanking": true,
+                    "card": true,
+                    "upi": true,
+                    "wallet": true,
+                    "qr": true
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            document.getElementById('rzp-button1').onclick = function (e) {
+                rzp1.open();
+                e.preventDefault();
+            }
+        </script> {% endcomment %}
+        {% comment %} <button id="rzp-button1">Pay with Razorpay</button> {% endcomment %
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+/*var options = {
+    "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
+    "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",*/
+    var options = {
+      "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
+      "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "WonderShop",
+      "description": "Test Transaction",
+      "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "callback_url": "{{callback_url}}",
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+    </body>
+    </html>
+    
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Summary</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        header {
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        
+        .payment-summary {
+            margin-top: 20px;
+        }
+        
+        .payment-summary p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        
+        .payment-summary span {
+            font-weight: bold;
+            color: #2BA977;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+        
+            .btn {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+            <h1>Payment Summary</h1>
+        </header>
+        <div class="payment-summary">
+            <p>Total Amount: ₹<span>{{ final_price }}</span></p>
+            <button id="rzp-button1" class="btn">Pay Now</button>
+        </div>
+        <footer>
+            <p>&copy; 2024 WonderShop. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
+            "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR.
+            "currency": "INR",
+            "name": "WonderShop",
+            "description": "Test Transaction",
+            "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "{{callback_url}}",
+            "prefill": {
+                "name": "{{request.user.get_full_name}}",
+                "email": "{{request.user.email}}",
+                "contact": "{{request.user.profile.phone_number}}"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#2BA977"
+            },
+            "method": {
+                "netbanking": true,
+                "card": true,
+                "upi": true,
+                "wallet": true,
+                "qr": true
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

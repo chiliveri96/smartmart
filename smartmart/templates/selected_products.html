@@ -1,0 +1,783 @@
+{% comment %} <!-- {% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+</head>
+<body>
+    <h2>Selected Products</h2>
+    <ul>
+        {% for product in selected_products %}
+        <li>{{ product.product_name }} - ₹{{ product.product_price }}</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'generate_invoice' %}">Download Invoice</a>
+</body>
+</html> 
+{% comment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Selected Products</h2>
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Price</th>
+        </tr>
+        {% for product in selected_products %}
+        <tr>
+            <td>{{ product.product_name }}</td>
+            <td>₹{{ product.product_price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Total Price</th>
+            <th>₹{{ total_price }}</th>
+        </tr>
+    </table>
+    <form action="{% url 'generate_invoice' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Download Invoice as PDF</button>
+    </form>
+</body>
+</html>  {% endcomment %} 
+{% comment %} <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Selected Products</title>
+     <style>
+         table {
+             width: 100%;
+             border-collapse: collapse;
+         }
+         table, th, td {
+             border: 1px solid black;
+         }
+         th, td {
+             padding: 10px;
+             text-align: left;
+         }
+         th {
+             background-color: #f2f2f2;
+         }
+     </style>
+ </head>
+ <body>
+     <h2>Selected Products</h2>
+     <table>
+         <tr>
+            {% comment %} <th>Product_id</th> 
+             <th>Product Name</th>
+             <th>Product Price</th>
+         </tr>
+         {% for product in selected_products %}
+         <tr>
+            {% comment %} <td>{{ }}</td> 
+             <td>{{ product.product_name }}</td>
+             <td>₹{{ product.product_price }}</td>
+            
+         </tr>
+         {% endfor %}
+         <tr>
+             <th>Total Price</th>
+             <th>₹{{ total_price }}</th>
+         </tr>
+     </table>
+     <form action="{% url 'generate_invoice' %}" method="post">
+         {% csrf_token %}
+         <button type="submit">Download Invoice as PDF</button>
+     </form>
+     <a href="/display_categories">add products form existing shop</a>
+     <a href="">remove product from list</a>
+     {% comment %} <a href="/maps">add products form another shop</a> 
+ </body>
+ </html> {% endcomment %} 
+
+{% comment %} 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Selected Products</h2>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Price</th>
+        </tr>
+        {% for product in selected_products %}
+        <tr>
+            <td>{{ product.product_id}}</td>
+            <td>{{ product.product_name }}</td>
+            <td>₹{{ product.product_price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Total Price</th>
+            <th>₹{{ total_price }}</th>
+        </tr>
+    </table>
+
+    <form action="{% url 'generate_invoice' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Download Invoice as PDF</button>
+    </form>
+
+    <h3>Remove Product</h3>
+    <form action="{% url 'remove_product_from_selection' %}" method="post">
+        {% csrf_token %}
+        <label for="product_id">Enter Product ID to Remove:</label>
+        <input type="number" name="product_id" id="product_id" required>
+        <button type="submit">Remove Product</button>
+    </form>
+
+    <a href="{% url 'display_categories' %}">Add products from existing shop</a>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+</head>
+<body>
+    <h2>Selected Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in selected_products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>₹{{ product.product_price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>
+                    <form action="{% url 'remove_product_from_selection' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        {% comment %} <label for="quantity">Quantity to Remove:</label> 
+                        <input type="hidden" name="quantity" id="quantity" value="1" min="1" max="{{ product.quantity }}" > 
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"><strong>Total Price</strong></td>
+                <td><strong>₹{{ total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+   
+    <a href="{% url 'display_categories' %}">Back to Categories</a><br><br>
+    <a href="/display_categories">add products form existing shop</a>
+    <form action="{% url 'generate_invoice' %}" method="post">
+        {% csrf_token %}
+        {% comment %} <button type="submit">Download Invoice as PDF</button> 
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: none;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+        td:last-child {
+            text-align: right;
+        }
+        .actions {
+            text-align: right;
+        }
+        .actions button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .links {
+            margin-top: 20px;
+        }
+        .links a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{shop.s_name}}</h1><br>
+    <h1>{{shop.s_mail}}</h1><br>
+    <h1>{{shop.s_address}}</h1><br>
+
+    customer_name:<h3>{{user.user_fname}}{{user.user_lname}}</h3>
+    
+    customer_phonenumber:<h3>{{user.user_phonenumber}}</h3>
+    <h2>Selected Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th class="actions">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in selected_products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>₹{{ product.product_price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td class="actions">
+                    <form action="{% url 'remove_product_from_selection' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class="total"><strong>Total Price</strong></td>
+                <td class="total"><strong>₹{{ total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+   
+    <a href="{% url 'display_categories' %}" class="links">Back to Categories</a><br><br>
+    <a href="/display_categories" class="links">Add products from existing shop</a>
+    <form action="{% url 'generate_invoice' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">download invoice</button>
+    </form>
+     {% comment %} <form action="{% url 'create_payment' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">next</button>
+    </form>  {% endcomment %}
+       {% comment %} <form action="{% url 'create_payment' order_id=order.order_id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Proceed to Payment</button>
+    </form> {% endcomment %
+    <form action="{% url 'create_order' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .header img {
+            width: 50px;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            display: inline;
+            margin-left: 10px;
+            font-size: 24px;
+        }
+
+        .shop-info {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .shop-info h1 {
+            margin: 5px 0;
+            font-size: 20px;
+        }
+
+        .customer-info {
+            margin: 20px 0;
+        }
+
+        .customer-info h3 {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            text-align: right;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .links {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .links:hover {
+            text-decoration: underline;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .btn-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var noProducts = {{ no_products|yesno:"true,false" }};
+            if (noProducts) {
+                alert('No products selected!, so please select your products!!!');
+                window.location.href = "{% url 'display_categories' %}";
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Mega Mart Logo">
+        <h1>Mega Mart Product Ordering and Shopping Platform</h1>
+    </div>
+
+    <div class="shop-info">
+        <h1>{{ shop.s_name }}</h1>
+        <h1>{{ shop.s_mail }}</h1>
+        <h1>{{ shop.s_address }}</h1>
+    </div>
+
+    <div class="customer-info">
+        <p>Customer Name:<h3>{{ user.user_fname }} {{ user.user_lname }}</h3></p>
+        <p>Customer Phone Number:<h3>{{ user.user_phonenumber }}</h3></p>
+    </div>
+
+    <h2>Selected Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th class="actions">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in selected_products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>₹{{ product.product_price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td class="actions">
+                    <form action="{% url 'remove_product_from_selection' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class="total"><strong>Total Price</strong></td>
+                <td class="total"><strong>₹{{ total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        {% comment %} <a href="{% url 'display_categories' %}" class="links">Back to Categories</a> {% endcomment %
+        <a href="/display_categories" class="links">Add products from existing shop</a>
+        <form action="{% url 'generate_invoice' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Download Invoice</button>
+        </form>
+        <form action="{% url 'create_order' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ order.id }}">
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .header img {
+            width: 50px;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            display: inline;
+            margin-left: 10px;
+            font-size: 24px;
+        }
+
+        .shop-info {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .shop-info h1 {
+            margin: 5px 0;
+            font-size: 20px;
+        }
+
+        .customer-info {
+            margin: 20px 0;
+        }
+
+        .customer-info h3 {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            text-align: right;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .links {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .links:hover {
+            text-decoration: underline;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: transform 0.2s;
+        }
+
+        .btn-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-container button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes clickAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .clicked {
+            animation: clickAnimation 0.3s ease-in-out;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var noProducts = {{ no_products|yesno:"true,false" }};
+            if (noProducts) {
+                alert('No products selected! Please select your products.');
+                window.location.href = "{% url 'display_categories' %}";
+            }
+
+            var invoiceDownloaded = false;
+
+            document.getElementById('downloadInvoiceButton').addEventListener('click', function(event) {
+                invoiceDownloaded = true;
+                this.classList.add('clicked');
+            });
+
+            document.getElementById('nextButton').addEventListener('click', function(event) {
+                if (!invoiceDownloaded) {
+                    alert('Please download the invoice before proceeding to the next step.');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Mega Mart Logo">
+        <h1>Smart Mart Product Ordering and Shopping Platform</h1>
+    </div>
+
+    <div class="shop-info">
+        <h1>{{ shop.s_name }}</h1>
+        <h1>{{ shop.s_mail }}</h1>
+        <h1>{{ shop.s_address }}</h1>
+    </div>
+
+    <div class="customer-info">
+        <p>Customer Name:<h3>{{ user.user_fname }} {{ user.user_lname }}</h3></p>
+        <p>Customer Phone Number:<h3>{{ user.user_phonenumber }}</h3></p>
+    </div>
+
+    <h2>Selected Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                <th class="actions">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in selected_products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>₹{{ product.product_price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td class="actions">
+                    <form action="{% url 'remove_product_from_selection' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class="total"><strong>Total Price</strong></td>
+                <td class="total"><strong>₹{{ total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        <a href="{% url 'display_categories' %}" class="links">Add products from existing shop</a>
+        <form action="{% url 'generate_invoice' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" id="downloadInvoiceButton">Download Invoice</button>
+        </form>
+        <form action="{% url 'create_order' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ order.id }}">
+            <button type="submit" id="nextButton">Next</button>
+        </form>
+    </div>
+</body>
+</html>

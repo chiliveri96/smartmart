@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opening page</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'sans-serif';
+            box-sizing: border-box;
+        }
+        .container{
+            width: 100%;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(15, 158, 205, 0.589),rgba(9,0,77,0.65)),url(bgabout.jpg);
+            background-size: cover;
+            background-position: center;
+            padding: 10px 8%;
+        }
+        nav{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        .logo{
+            width: 180px;
+            cursor: pointer;
+            border-radius: 180px;
+        }
+
+        .container nav ul{
+            list-style: none;
+            display: flex; /* Ensure flex layout */
+            justify-content: flex-end; /* Align items to the end */
+            width: 100%; /* Adjust width to fit the container */
+            padding-right: 60px;
+            background-color: rgba(250, 235, 215, 0.402);
+            border-radius: 10px;
+        }
+        .container nav ul li{
+            display: inline-block;
+            margin: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.523);
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 0;
+            outline: 0;
+            font-weight: 500;
+        }
+        .container ul li a{
+            color: white;
+            text-decoration: none;
+        }
+        .container ul li:hover {
+            background-color: black;
+            box-shadow: 3px 3px 3px 8px lightblue;
+        }
+        .container nav ul li a:hover {
+            color: green;
+            text-decoration: underline;
+        }
+        .content{
+            margin-top: 6%;
+            color: white;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            flex-wrap: wrap; /* Allows wrapping of content */
+        }
+        .content .con h1{
+            font-size:50px;
+            font-weight: 500;
+            line-height: 70px;
+            margin-bottom: 25px;
+        }
+        .content .con h1 span{
+            color: blue;
+        }
+        .photo{
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            top: 40;
+            right: 0;
+            align-items: center;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .content .photo video{
+            position: absolute;
+            border-radius: 10px;
+        }
+        @media (max-width: 1200px) {
+            .container nav ul {
+                width: 60%;
+                padding-right: 40px;
+            }
+            .content .con h1 {
+                font-size: 40px;
+                line-height: 60px;
+            }
+            .content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .photo {
+                width: 100%;
+                margin-top: 20px;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 768px) {
+            .container nav ul {
+                width: 80%;
+                padding-right: 20px;
+            }
+            .container nav ul li {
+                margin: 10px 10px;
+                padding: 10px 15px;
+            }
+            .content .con h1 {
+                font-size: 35px;
+                line-height: 50px;
+            }
+            .photo {
+                width: 100%;
+                height: auto;
+            }
+            .content .photo video {
+                width: 100%;
+                height: auto;
+            }
+        }
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column;
+            }
+            .container nav ul {
+                width: 100%;
+                text-align: center;
+                padding-right: 0;
+            }
+            .container nav ul li {
+                margin: 10px 5px;
+                padding: 10px 10px;
+            }
+            .content .con h1 {
+                font-size: 28px;
+                line-height: 40px;
+            }
+            .content {
+                margin-top: 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="logo" class="logo">
+            <ul>
+                <li><a href="/about">About Us</a></li>
+                {% comment %} <li><a href="/signup">Signup</a></li>
+                <li><a href="/login">Login</a></li> {% endcomment %}
+                <li><a href="/login">User</a></li>
+                <li><a href="/shopowner_login">ShopOwner</a></li>
+                <li><a href="/delivery_boy_login">Delivery User</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <div class="con">
+                <h1><i>Welcome,</i>to<br> <span>SMARTMART</span> Platform</h1>
+                <p>SMARTMART is an Online product ordering and delivery platform, SmartMart users can order the products from their nearby shops or supermarkets</p>
+            </div>
+            <div class="photo">
+                <video id="autoplay-video" auto muted loop class="shop" width="400px" height="400" style="border-radius: 30px;">
+                    <source src="{% static 'myapp/images/87369f1e2dbcad442ddbb385672caf76.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // JavaScript to play the video when the page loads
+    window.onload = function() {
+        var video = document.getElementById('autoplay-video');
+        video.play().catch(function(error) {
+            console.error('Autoplay was prevented:', error);
+        });
+    };
+</script>
+</html>

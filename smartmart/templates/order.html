@@ -1,0 +1,104 @@
+{% comment %} {% comment %} <h1>success fully downloaded invoice<h1>
+     
+
+     <!DOCTYPE html>
+<html>
+<head>
+    <title>Order Success</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+    
+</head>
+<body>
+    <h1>Order Successfully Placed</h1>
+    <p>Order #{{ order.order_id }} has been placed successfully!</p>
+    <p>Total Price: ${{ order.total_price }}</p>
+    <a href="{% url 'home' %}">Continue Shopping</a>
+
+    {% comment %} <form action="{% url 'create_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.order_id }}">
+        <button type="submit">Next</button>
+    </form> 
+
+    <form action="{% url 'create_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order_id }}">
+        <button type="submit">Next</button>
+    </form>
+     <script>
+        // Function to get the CSRF token from the meta tag
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Setting up AJAX to include CSRF token in request headers
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^http:.*/.test(settings.url) && !/^https:.*/.test(settings.url)) {
+                    // Only send the token to relative URLs i.e., locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });
+    
+        // Example AJAX form submission
+        $('#payment-form').on('submit', function(event) {
+            event.preventDefault();
+            const form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(response) {
+                    // Handle success
+                    console.log('Payment created successfully:', response);
+                },
+                error: function(error) {
+                    // Handle error
+                    console.error('Error creating payment:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Success</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Order Successfully Placed</h1>
+    <p>Order #{{ order.order_id }} has been placed successfully!</p>
+    <p>Total Price: ${{ order.total_price }}</p>
+    <a href="{% url 'home' %}">Continue Shopping</a>
+
+    {% comment %} <form method="POST" action="/payment/">{% csrf_token %}
+        <button class="btn btn-primary" type="submit">Proceed for Payment</button>
+        </form> {% endcomment %}
+    {% comment %} <form action="{% url '' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.order_id }}">
+        <button type="submit">Next</button>
+    </form> {% endcomment %}
+</body>
+</html>

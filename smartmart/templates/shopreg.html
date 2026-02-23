@@ -1,0 +1,375 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopowner_reg page</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+   
+        body{
+            width: 100%;
+            min-height: 120vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0)),url("{% static 'myapp/images/bgabout.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            padding: 10px 8px;
+            
+        }
+    .logo{
+        width: 180px;
+        cursor: pointer;
+        border-radius: 180px;
+        margin-left: 7%;
+        margin-top: 3%;
+    }
+    nav{
+        display: flex;
+        position: relative;
+        width: 100%;
+        
+    }
+nav h2{
+    color: white;
+    background-color: blue;
+    border-radius: 10px;
+    height:fit-content;
+    padding: 10px 5px;
+    position: absolute;
+    left: 29%;
+    bottom: 0%;
+    top:100%;
+}
+  .container form {
+position: absolute;
+justify-content: center;
+align-items: center;
+padding: 10px;
+
+border:   rgb(22, 22, 21) ;
+padding: 10px;
+margin: 20px 150px;
+background-color: rgba(0, 0, 0, 0.217);
+width: fit-content;
+height: fit-content;
+border-radius: 30px;
+top:47%;
+left:10%;
+
+  }
+
+
+  form input{
+    
+    height: 23px;
+    border-radius: 10px;
+   
+  }
+  
+  
+  label
+  {
+      width: 150px;
+      display: inline-block;
+      color: white;
+  }
+  input[type=text]
+  {
+      display: inline-block;
+      
+  }
+  form .btn{
+    display: flex;
+    justify-content:space-evenly;
+    
+    padding: 10px ;
+   
+    align-items: center;
+  }
+  .btn button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+
+  }
+  .btn button:hover{
+    color: blue;
+    background-color:yellow;
+    text-decoration:underline;
+  }
+  form label,input{
+    margin: 10px;
+  }
+  span{
+    color: red;
+  }
+.container nav a{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    margin-left: 68%;
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.container nav a:hover{
+    color: green;
+    background-color: black;
+    text-decoration: underline;
+}
+form p{
+    color:red;
+    
+}
+nav h1{
+    position:absolute;
+    width:fit-content;
+    height:fit-content;
+    color:black;
+    left:30%;
+    top:90px;
+    background-color:white;
+    border-radius:10px;
+    padding:10px 8px;
+    
+}
+.pp{
+    margin-left:40%;
+}
+.shopowner{
+    width:250px;
+    height:250px;
+    position:absolute;
+    right:10%;
+    top:50%;
+    border-radius:10px;
+    transition: transform 0.3s ease-in-out;
+}
+.shopowner:hover{
+    transform: scale(1.5);
+    cursor:pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="logo" class="logo">
+        <h1>Smartmart online ordering and delivery platform</h1>
+        <h2>Add new Shop</h2>
+        <a href="/shopownerprofile_op">Home</a>
+       
+    </nav>
+    <img src="{% static 'myapp/images/shopownerimg.webp' %}" alt="img miss" class="shopowner">
+    <form  method="POST"  action="{% url 'register_shop' %}" id="form"  enctype="multipart/form-data">
+ 
+        {% csrf_token %}
+       
+     
+        <label for="uname">Shop Name</label>
+        <input type="text" name="uname" id="uname">
+  <span id="uname_error" ></span>
+        <br>
+     
+        <label for="email">Shop Email</label>
+        <input type="email" name="email" id="email" Required>
+        <span id="email_error" ></span>
+        <br>
+        {% comment %} <label for="type">Shop Type</label>
+        <input type="text" name="type" id="type"> {% endcomment %}
+        <label for="type">Shop Type</label>
+        
+  <select name="type" id="type">
+    <option value="Grocery">Grocery</option>
+    <option value="Clothing">Clothing</option>
+    <option value="Electronics">Electronics</option>
+    <!-- Add more options as needed -->
+  </select>
+        <span id="type_error" ></span>
+        <br>
+         <label for="opentime">Opening Time</label>
+        <input type="time" name="opentime" id="opentime">
+        <span id="opentime_error" ></span>
+        <br> 
+        <label for="closetime">Closing Time</label>
+        <input type="time" name="closetime" id="closetime">
+        <span id="closetime_error" ></span>
+        <br>
+        <label for="num">Phone Number</label>
+        <input type="number" name="num" id="num">
+        <span id="phone_error" ></span>
+        <br>
+        <label for="address">Address</label>
+        <input type="address" name="address" id="address">
+        <span id="address_error" ></span>
+        <br>
+        <label for="lat">lat</label>
+        <input type="e.latlng" name="lat" id="lat">
+        <span id="address_error" ></span>
+        <br>
+        <label for="lan">lng</label>
+        <input type="e.latlng" name="lan" id="lan">
+        <span id="address_error" ></span>
+        <br>
+        <label for="image">Shop Image</label>
+    <input type="file" name="image" id="image">
+    <br>
+       
+        <label for="oemail">owner Email</label>
+        <input type="oemail" name="oemail" id="oemail" Required>
+        <span id="oemail_error" ></span> 
+        {% comment %} <input type="email" name="owner_email" value="{{ owner.o_mail }}"> {% endcomment %}
+                {% if message_error%}
+        <p>{{ message_error }}</p>
+        
+        {% endif %}
+<div class="btn">
+        <button type="submit" onclick="return vaildate()">Submit</button>
+        <button onclick=" return reset()" value="reset">Reset</button>
+    </div>
+    <!-- <p  class="pp">Already User?<a href="#">Login</a></p> -->
+    </form>
+
+    </div>
+    <script>
+        const fname=document.getElementById('uname');
+        const oeemail=document.getElementById('oemail');
+        const eemail=document.getElementById('email');
+        const type=document.getElementById('type');
+        const opentime=document.getElementById('opentime');
+        const closetime=document.getElementById('closetime');
+        const form=document.getElementById('form');
+        const phone=document.getElementById('num');
+        const address=document.getElementById('address')
+        const fname_error=document.getElementById('uname_error');
+ 
+        const oemail_error=document.getElementById('oemail_error');
+        const email_error=document.getElementById('email_error');
+        const type_error=document.getElementById('type_error');
+        const opentime_error=document.getElementById('opentime_error');
+        const closetime_error=document.getElementById('closetime_error');
+        const phone_error=document.getElementById('phone_error');
+        const address_error=document.getElementById('address_error');
+        const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        const passRegex=/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        const phoneRegex=/^(?!(\d)\1{9})[6-9]\d{9}$/;
+        
+  
+        function vaildate()
+        {
+            if(uname.value === '' || uname.value==null)
+            {
+               
+                uname_error.innerHTML="*shop name Required";
+                return false;
+            }
+            else{
+                uname_error.innerHTML=null;
+            }
+        
+
+            if(  eemail.value==='' || !eemail.value.match(emailRegex))
+            {
+            
+                email_error.innerHTML= "*Vaild Email is Required";
+                return false;
+            }
+            else{
+                email_error.innerHTML=null;
+            }
+            if(  oeemail.value==='' || !oeemail.value.match(emailRegex))
+            {
+            
+                oemail_error.innerHTML= "*Vaild Email is Required";
+                return false;
+            }
+            else{
+                oemail_error.innerHTML=null;
+            }
+            if(type.value==='' || type.value==null)
+            {
+               
+                type_error.innerHTML="shop type Required";
+                return false;
+
+            }
+            
+            
+           else if(opentime.value==='' || opentime.value==null )
+            {
+                
+               opentime_error.innerHTML="*Popening time Required";
+                return false;
+
+            }
+          
+           
+
+            if(closetime.value===''||closetime.value==null)
+            {
+                
+                closetime_error.innerHTML="*closing time Required";
+                return false;
+            }
+            else{
+                dob_error.innerHTML=null;
+            }
+
+            if(phone.value===''||phone.value==null)
+            {
+                
+                phone_error.innerHTML="*phone_number Required";
+                return false;
+            }
+            else if(!phone.value.match(phoneRegex))
+            {
+                
+                phone_error.innerHTML="*Vaild phone_number Required";  
+                return false; 
+            }
+            else
+            {
+                     phone_error.innerHTML=null;
+                
+            }
+            if(address.value===''||address.value==null)
+            {
+                address_error.innerHTML="*Address in Required";
+                return false;
+            }
+            else{
+                address_error.innerHTML=null;
+            }
+            
+        }
+
+        function reset()
+        {
+            fname_error.innerHTML=null;
+            lname_error.innerHTML=null;
+            email_error.innerHTML=null;
+            pass_error.innerHTML=null;
+            cpass_error.innerHTML=null;
+            dob_error.innerHTML=null;
+            phone_error.innerHTML=null;
+            return false;
+        }
+
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgot password</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+    body {
+        width: 100%;
+        height: 100vh;
+        {% comment %} background-image: linear-gradient(rgba(15, 158, 205, 0), rgba(9, 0, 77, 0)), url(loginback.jpg); {% endcomment %}
+        background: url("{% static 'myapp/images/loginback.jpg' %}") no-repeat;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .container{
+        width: 100%;
+        min-height: 100vh;
+       
+        background-size: cover;
+        background-position: center;
+        padding: 10px 8%;
+    }
+    .logo{
+        width: 180px;
+        cursor: pointer;
+        border-radius: 180px;
+        margin-top: 20px;
+        margin-left: 0;
+    }
+    .container .top
+    {
+        display: flex;
+        margin: 0;
+        max-width: 100%;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        position: relative;
+        height: 100%;
+        /*background-color: black;*/
+
+    }
+   .container .top h1{
+    justify-content: center;
+    margin-left: 10px;
+    background-color: blue;
+    padding: 5px;
+    border-radius: 8px;
+    }
+    .container .top a{
+        justify-content: center;
+        margin-left: 45px;
+        text-decoration: none;
+        background-color: black;
+        color: #fff;
+        margin-bottom: 65px;
+        padding: 10px;
+        border-radius: 10px;
+        }
+        .container .top a:hover{
+           
+            text-decoration: underline;
+            background-color:green;
+            color: #fff;
+           
+            }
+            .container .top1
+            {
+                display: flex;
+                margin: 0;
+                max-width: 100%;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                position: relative;
+                height: 100%;
+                /*background-color: black;*/
+        
+            }
+          
+          .container  .top1 form {
+                width:fit-content;
+                height: fit-content;
+                position: absolute;
+               
+                right: 30%;
+                margin-top: 42%;
+                /* Adjusted to place the form on the right side */
+                transform: translateY(-50%);
+                background-color:rgba(255, 255, 255, 0.559);
+                padding: 40px;
+                border: none;
+                border-radius: 20px;
+                color: black;
+             
+             
+                
+            }
+            .top1 .bgimg{
+               position:absolute;
+                border: none;
+                border-radius: 20px;
+                left: 10px;
+                top: 80px;
+            }
+            .top1 h2{
+                font-family: Georgia, 'Times New Roman', Times, serif;
+                color:white;
+            }
+            label {
+                display: block; /* Ensures the label appears on a new line */
+                margin-bottom: 10px; /* Adds spacing between elements */
+            }
+    
+            input[type="text"] {
+               
+                border:none;
+                border-radius: 5px;
+                width:250px;
+                height: 20px;
+                color:black;
+                 /* Ensures the input box appears on a new line */
+            }
+            
+    
+            button[type="submit"] {
+                display: block; /* Ensures the button appears on a new line */
+                margin-top: 10px; /* Adds spacing between elements */
+                padding: 2px 8px;
+                cursor: pointer;
+                border: none;
+border-radius: 5px;
+            }
+            button:hover{
+                color: blue;
+                background-color: black;
+                text-decoration: underline;
+
+            }
+        
+</style>
+<body>
+    <div class="container">
+        <div class="top">
+    <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="logo" class="logo">
+    <h1>SmartMart online ordering and delivery platform</h1>
+    <a href="/login">Back</a>
+</div>
+<div class="top1">
+<h2>Forgot Password</h2>
+<img src="{% static 'myapp/images/forgotpassimg.jpg' %}" alt="img" width="300px" height="300px" class="bgimg">
+<form action="{% url 'fgpm' %}" method="POST" >
+    {% csrf_token %}
+    
+<label for="forgotemail">Enter Registered Email:</label>
+<input type="text" name="forgotemail" id="forgotemail" placeholder=" enter email" >
+<button type="submit" >Submit</button>
+<br>
+<p>
+    {% if error_message %}
+              <p>{{ error_message }}</p>
+              
+              {% endif %}
+    </p>
+</form>
+
+</div>
+</div>
+</body>
+</html>

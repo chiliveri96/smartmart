@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-container {
+            background: linear-gradient(to bottom right, #5f9ea0, #1e90ff);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+        
+        .label {
+            color: #ffd700; /* Gold color for labels */
+            font-weight: bold;
+        }
+
+        .edit-button {
+            color: black;
+            background-color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            margin-top: 20px;
+            align-self: center;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .message.error {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .message.success {
+            background-color: #4caf50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-container">
+            <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+            <h2>Edit Profile</h2>
+            
+            <!-- Display messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="POST">
+                {% csrf_token %}
+                <p><span class="label">user Name:</span> <input type="text" name="user_name" value="{{ user.o_name }}" required></p>
+                {% comment %} <p><span class="label">Last Name:</span> <input type="text" name="user_lname" value="{{ user.user_lname }}" required></p> {% endcomment %}
+                <p><span class="label">Email:</span> <input type="email" name="user_mail" value="{{ user.o_mail }}" required></p>
+                <p><span class="label">DOB:</span> <input type="date" name="user_dob" value="{{ user.o_dob }}" required></p>
+                <p><span class="label">Contact:</span> <input type="text" name="user_phonenumber" value="{{ user.o_phonenumber }}" required></p>
+                <p><span class="label">Address:</span> <input type="text" name="address" value="{{ user.o_address }}" required></p>
+                <button type="submit" class="edit-button">Save</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

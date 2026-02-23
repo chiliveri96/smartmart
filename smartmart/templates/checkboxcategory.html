@@ -1,0 +1,658 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+</head>
+<body>
+    <h2>Select Categories</h2>
+    <form  action="{% url 'store_categories' %}" method="post" >
+        {% csrf_token %}
+        <div>
+            <input type="checkbox" id="category1" name="categories" value="Category 1">
+            <label for="category1">Category 1</label>
+        </div>
+        <div>
+            <input type="checkbox" id="category2" name="categories" value="Category 2">
+            <label for="category2">Category 2</label>
+        </div>
+        <div>
+            <input type="checkbox" id="category2" name="categories" value="Category 3">
+            <label for="category2">Category 2</label>
+        </div>
+        <!-- Add more checkboxes as needed -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+</head>
+<body>
+    <h2>Select Categories</h2>
+    <form  action="{% url 'store_categories' %}" method="post" >
+        {% csrf_token %}
+        <div>
+            <input type="checkbox" id="category1" name="categories" value="Category 10">
+            <label for="category1">Category 10</label>
+        </div>
+        <div>
+            <input type="checkbox" id="category2" name="categories" value="Category 2">
+            <label for="category2">Category 2</label>
+        </div>
+        <div>
+            <input type="checkbox" id="category3" name="categories" value="Category 3">
+            <label for="category3">Category 3</label>
+        </div>
+        <div>
+            <input type="checkbox" id="category4" name="categories" value="Category 99">
+            <label for="category4">Category 99</label>
+        </div>
+        <!-- Add more checkboxes as needed -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+ {% endcomment %}
+
+{% comment %} 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .category {
+            margin: 10px 0;
+            text-align: left;
+        }
+        label {
+            margin-left: 10px;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Categories</h2>
+        <form action="{% url 'store_categories' %}" method="post">
+            {% csrf_token %}
+            <div class="category">
+                <input type="checkbox" id="category1" name="categories" value="Category 10">
+                <label for="category1">Category 10</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category2" name="categories" value="Category 2">
+                <label for="category2">Category 2</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category3" name="categories" value="Category 3">
+                <label for="category3">Category 3</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category4" name="categories" value="Category 99">
+                <label for="category4">Category 99</label>
+            </div>
+            <!-- Add more checkboxes as needed -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .category img {
+            width: 50px; /* Adjust the size as needed */
+            height: 50px; /* Adjust the size as needed */
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Categories</h2>
+        <form action="{% url 'store_categories' %}" method="post">
+            {% csrf_token %}
+            <div class="category">
+                <input type="checkbox" id="category1" name="categories" value="Category 10">
+                <img src="{% static 'myapp/images/smlogo.jpg.jpg' %}" alt="Category 10">
+                <label for="category1">Category 10</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category2" name="categories" value="Category 2">
+                <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Category 2">
+                <label for="category2">Category 2</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category3" name="categories" value="Category 3">
+                <img src="{% static 'myapp/images/category3.jpg' %}" alt="Category 3">
+                <label for="category3">Category 3</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category4" name="categories" value="Category 99">
+                <img src="{% static 'myapp/images/category99.jpg' %}" alt="Category 99">
+                <label for="category4">Category 99</label>
+            </div>
+            <!-- Add more checkboxes with images as needed -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .category img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Categories</h2>
+        <form action="{% url 'store_categories' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="category">
+                <input type="checkbox" id="category1" name="categories" value="fruites">
+                <img src="{% static 'myapp/images/fruits.webp' %}" alt="fruites">
+                <input type="hidden" name="category_image_fruites" value="{% static 'myapp/images/fruits.webp' %}">
+                <label for="category1">fruites</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category2" name="categories" value="Grocery">
+                <img src="{% static 'myapp/images/Grocery.jpg' %}" alt="Grocery">
+                <input type="hidden" name="category_image_Grocery" value="{% static 'myapp/images/Grocery.jpg' %}">
+                <label for="category2">Grocery</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category3" name="categories" value="cooldrinks">
+                <img src="{% static 'myapp/images/cooldrink.webp' %}" alt="cooldrinks">
+                <input type="hidden" name="category_image_cooldrinks" value="{% static 'myapp/images/cooldrink.webp' %}">
+                <label for="category3">cooldrinks</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category4" name="categories" value="Cosmetics">
+                <img src="{% static 'myapp/images/Cosmetics.webp' %}" alt="Cosmetics">
+                <input type="hidden" name="category_image_Cosmetics" value="{% static 'myapp/images/Cosmetics.webp' %}">
+                <label for="category4">Cosmetics</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category5" name="categories" value="sports">
+                <img src="{% static 'myapp/images/sports.jpg' %}" alt="Cosmetics">
+                <input type="hidden" name="category_image_Cosmetics" value="{% static 'myapp/images/sports.jpg' %}">
+                <label for="category5">sports</label>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .category img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Categories</h2>
+        <form action="{% url 'store_categories' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="category">
+                <input type="checkbox" id="category1" name="categories" value="fruites">
+                <img src="{% static 'myapp/images/fruits.webp' %}" alt="fruites">
+                <input type="hidden" name="category_image_fruites" value="{% static 'myapp/images/fruits.webp' %}">
+                <input type="hidden" name="template_name_fruites" value="checkboxproductsfruites.html">
+                <input type="hidden" name="extemplate_name_fruites" value="exproductfruites.html">
+                <label for="category1">fruites</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category2" name="categories" value="Grocery">
+                <img src="{% static 'myapp/images/Grocery.jpg' %}" alt="Grocery">
+                <input type="hidden" name="category_image_Grocery" value="{% static 'myapp/images/Grocery.jpg' %}">
+                <input type="hidden" name="template_name_Grocery" value="checkboxproductsGrocery.html">
+                <input type="hidden" name="extemplate_name_Grocery" value="exproductGrocery.html">
+                <label for="category2">Grocery</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category3" name="categories" value="cooldrinks">
+                <img src="{% static 'myapp/images/cooldrink.webp' %}" alt="cooldrinks">
+                <input type="hidden" name="category_image_cooldrinks" value="{% static 'myapp/images/cooldrink.webp' %}">
+                <input type="hidden" name="template_name_cooldrinks" value="checkboxproductscooldrinks.html">
+                <input type="hidden" name="extemplate_name_cooldrinks" value="exproductcooldrinks.html">
+                <label for="category3">cooldrinks</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category4" name="categories" value="Cosmetics">
+                <img src="{% static 'myapp/images/Cosmetics.webp' %}" alt="Cosmetics">
+                <input type="hidden" name="category_image_Cosmetics" value="{% static 'myapp/images/Cosmetics.webp' %}">
+                <input type="hidden" name="template_name_Cosmetics" value="checkboxproductscosmetics.html">
+                <input type="hidden" name="extemplate_name_Cosmetics" value="exproductcosmetics.html">
+                <label for="category4">Cosmetics</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category5" name="categories" value="sports">
+                <img src="{% static 'myapp/images/sports.jpg' %}" alt="sports">
+                <input type="hidden" name="category_image_sports" value="{% static 'myapp/images/sports.jpg' %}">
+                <input type="hidden" name="template_name_sports" value="checkboxproductssports.html">
+                <input type="hidden" name="extemplate_name_sports" value="exproductsports.html">
+                <label for="category5">sports</label>
+            </div>
+
+            <div class="category">
+                <input type="checkbox" id="category6" name="categories" value="vegtables">
+                <img src="{% static 'myapp/images/vegetables.jpg' %}" alt="vegtables">
+                <input type="hidden" name="category_image_vegtables" value="{% static 'myapp/images/vegetables.jpg' %}">
+                <input type="hidden" name="template_name_vegtables" value="checkboxproductsvegtables.html">
+                <input type="hidden" name="extemplate_name_vegtables" value="exproductgrocey.html">
+                <label for="category6">vegtables</label>
+            </div>
+            <div class="category">
+                <input type="checkbox" id="category7" name="categories" value="Electronics">
+                <img src="{% static 'myapp/images/Electronics.jpg' %}" alt="vegtables">
+                <input type="hidden" name="category_image_Electronics" value="{% static 'myapp/images/Electronics.jpg' %}">
+                <input type="hidden" name="template_name_Electronics" value="checkboxproductsElectronics.html">
+                <input type="hidden" name="extemplate_name_Electronics" value="exproductElectronics.html">
+                <label for="category6">Electronics</label>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Checkbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color:black;
+padding:6px 10px;
+border-radius:5px;
+        }
+        .navbar a:hover{
+            background-color:blue;
+            color:white;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .category {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 15px 0;
+            text-align: left;
+            width: 30%;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .category img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        label {
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+       
+        {% comment %} <span>@SmartMart</span> {% endcomment %}
+        <a href="javascript:history.back()">Back</a>
+    </div>
+    <div class="container">
+        <h2>Select Categories</h2>
+        <form action="{% url 'store_categories' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="categories">
+                <div class="category">
+                    <input type="checkbox" id="category1" name="categories" value="fruites">
+                    <img src="{% static 'myapp/images/fruits.webp' %}" alt="fruites">
+                    <input type="hidden" name="category_image_fruites" value="{% static 'myapp/images/fruits.webp' %}">
+                    <input type="hidden" name="template_name_fruites" value="checkboxproductsfruites.html">
+                    <input type="hidden" name="extemplate_name_fruites" value="exproductfruites.html">
+                    <label for="category1">Fruites</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category2" name="categories" value="Grocery">
+                    <img src="{% static 'myapp/images/Grocery.jpg' %}" alt="Grocery">
+                    <input type="hidden" name="category_image_Grocery" value="{% static 'myapp/images/Grocery.jpg' %}">
+                    <input type="hidden" name="template_name_Grocery" value="checkboxproductsGrocery.html">
+                    <input type="hidden" name="extemplate_name_Grocery" value="exproductGrocery.html">
+                    <label for="category2">Grocery</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category3" name="categories" value="cooldrink">
+                    <img src="{% static 'myapp/images/cooldrink.webp' %}" alt="cooldrink">
+                    <input type="hidden" name="category_image_cooldrink" value="{% static 'myapp/images/cooldrink.webp' %}">
+                    <input type="hidden" name="template_name_cooldrink" value="checkboxproductscooldrink.html">
+                    <input type="hidden" name="extemplate_name_cooldrink" value="exproductcooldrink.html">
+                    <label for="category3">Cool Drinks</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category4" name="categories" value="Cosmetics">
+                    <img src="{% static 'myapp/images/Cosmetics.webp' %}" alt="Cosmetics">
+                    <input type="hidden" name="category_image_Cosmetics" value="{% static 'myapp/images/Cosmetics.webp' %}">
+                    <input type="hidden" name="template_name_Cosmetics" value="checkboxproductscosmetics.html">
+                    <input type="hidden" name="extemplate_name_Cosmetics" value="exproductcosmetics.html">
+                    <label for="category4">Cosmetics</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category5" name="categories" value="sports">
+                    <img src="{% static 'myapp/images/sports.jpg' %}" alt="sports">
+                    <input type="hidden" name="category_image_sports" value="{% static 'myapp/images/sports.jpg' %}">
+                    <input type="hidden" name="template_name_sports" value="checkboxproductssports.html">
+                    <input type="hidden" name="extemplate_name_sports" value="exproductsports.html">
+                    <label for="category5">Sports</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category6" name="categories" value="vegtables">
+                    <img src="{% static 'myapp/images/vegetables.jpg' %}" alt="vegtables">
+                    <input type="hidden" name="category_image_vegtables" value="{% static 'myapp/images/vegetables.jpg' %}">
+                    <input type="hidden" name="template_name_vegtables" value="checkboxproductsvegtables.html">
+                    <input type="hidden" name="extemplate_name_vegtables" value="exproductgrocey.html">
+                    <label for="category6">Vegetables</label>
+                </div>
+                <div class="category">
+                    <input type="checkbox" id="category7" name="categories" value="Electronics">
+                    <img src="{% static 'myapp/images/Electronics.jpg' %}" alt="Electronics">
+                    <input type="hidden" name="category_image_Electronics" value="{% static 'myapp/images/Electronics.jpg' %}">
+                    <input type="hidden" name="template_name_Electronics" value="checkboxproductsElectronics.html">
+                    <input type="hidden" name="extemplate_name_Electronics" value="exproductElectronics.html">
+                    <label for="category7">Electronics</label>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="footer">
+        &copy; 2024 SmartMart. All rights reserved.
+    </div>
+</body>
+
+</html>

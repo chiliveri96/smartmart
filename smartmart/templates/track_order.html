@@ -1,0 +1,433 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Order Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h1, h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        .order-info p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step .icon {
+            font-size: 36px;
+            color: #fff;
+            background: #ddd;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .step .icon.completed {
+            background: #2193b0;
+        }
+
+        .line {
+            height: 4px;
+            background: #ddd;
+            flex: 1;
+            margin: 0 20px;
+            position: relative;
+            top: 22px;
+            transition: background 0.3s;
+        }
+
+        .line.completed {
+            background: #2193b0;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #2193b0;
+            margin: 0 10px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .line {
+                display: none;
+            }
+
+            .step {
+                margin-bottom: 20px;
+            }
+
+            .order-info p {
+                font-size: 14px;
+            }
+
+            .arrow {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Order Details Section -->
+        <div class="section order-details">
+            <h1>Order Details</h1>
+            <div class="order-info">
+                <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+                <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+            </div>
+        </div>
+
+        <!-- Arrow to indicate transition -->
+        <div class="arrow text-center">
+            <i class="fas fa-arrow-down"></i>
+        </div>
+
+        <!-- Order Tracking Section -->
+        <div class="section order-tracking">
+            <h2>Order Tracking</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="icon {% if order.order_status in 'PLACED ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-shopping-cart"></i></div>
+                    <div>Order Placed</div>
+                </div>
+                <div class="line {% if order.order_status in 'PLACED ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status in 'ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-box"></i></div>
+                    <div>Order Committed</div>
+                </div>
+                <div class="line {% if order.order_status in 'ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status in 'PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-cube"></i></div>
+                    <div>Order Packed</div>
+                </div>
+                <div class="line {% if order.order_status in 'PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status == 'DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-truck"></i></div>
+                    <div>Order Dispatched</div>
+                </div>
+                <div class="line {% if order.order_status == 'DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status == 'DELIVERED' %}completed{% endif %}"><i class="fas fa-check-circle"></i></div>
+                    <div>Delivered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'user_orders' %}" class="btn">Back to My Orders</a>
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Order Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .wrapper {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1; /* Ensure container is above the GIF */
+        }
+
+        .container {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h1, h2 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        .order-info p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step .icon {
+            font-size: 36px;
+            color: #fff;
+            background: #ddd;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .step .icon.completed {
+            background: #2193b0;
+        }
+
+        .line {
+            height: 4px;
+            background: #ddd;
+            flex: 1;
+            margin: 0 20px;
+            position: relative;
+            top: 22px;
+            transition: background 0.3s;
+        }
+
+        .line {
+            height: 4px;
+            background: #ddd;
+            flex: 1;
+            margin: 0 20px;
+            position: relative;
+            top: 22px;
+            transition: background 0.3s;
+        }
+        .line.completed {
+            background: #2193b0;
+        }
+        
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .gif-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                padding-right: 0;
+            }
+
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .line {
+                display: none;
+            }
+
+            .step {
+                margin-bottom: 20px;
+            }
+
+            .order-info p {
+                font-size: 14px;
+            }
+
+            .arrow {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="wrapper">
+     
+        <div class="container">
+            <!-- Order Details Section -->
+            <div class="section order-details">
+                <h1>Order Details</h1>
+                <div class="order-info">
+                    <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                    <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+                    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                </div>
+            </div>
+
+            <!-- Order Tracking Section -->
+            <div class="section order-tracking">
+                <h2>Order Tracking</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="icon {% if order.order_status in 'PLACED ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-shopping-cart"></i></div>
+                        <div>Order Placed</div>
+                    </div>
+                    <div class="line {% if order.order_status in 'PLACED ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                    <div class="step">
+                        <div class="icon {% if order.order_status in 'ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-box"></i></div>
+                        <div>Order Committed</div>
+                    </div>
+                    <div class="line {% if order.order_status in 'ORDERCOMMITTED PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                    <div class="step">
+                        <div class="icon {% if order.order_status in 'PACKED DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-cube"></i></div>
+                        <div>Order Packed</div>
+                    </div>
+                    <div class="line {% if order.order_status in 'PACKED DISPATCHED DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status in 'DISPATCHED DELIVERED' %}completed{% endif %}"><i class="fas fa-truck"></i></div>
+                    <div>Order Dispatched</div>
+                </div>
+                <div class="line {% if order.order_status == 'DELIVERED' %}completed{% endif %}"></div>
+                <div class="step">
+                    <div class="icon {% if order.order_status == 'DELIVERED' %}completed{% endif %}"><i class="fas fa-check-circle"></i></div>
+                    <div>Delivered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'user_orders' %}" class="btn">Back to My Orders</a>
+    </div>
+
+    <!-- GIF Image -->
+    <div class="gif-container">
+        <video id="autoplay-video" autoplay muted loop class="shop" width="400px" height="400" style="border-radius: 30px;">
+            <source src="{% static 'myapp/images/trackorder.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+<script>
+    // JavaScript to play the video when the page loads
+    window.onload = function() {
+        var video = document.getElementById('autoplay-video');
+        video.play().catch(function(error) {
+            console.error('Autoplay was prevented:', error);
+        });
+    };
+</script>

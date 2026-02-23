@@ -1,0 +1,25 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Success</title>
+</head>
+<body>
+    <h1>Payment Successful</h1>
+    <p>Thank you for your payment. Your transaction was successful.</p>
+    <pre>{{ response }}</pre>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Successful</title>
+</head>
+<body>
+    <h1>Payment Successful</h1>
+    <p>Order ID: {{ response.ORDERID }}</p>
+    <p>Transaction ID: {{ response.TXNID }}</p>
+    <p>Amount: {{ response.TXNAMOUNT }}</p>
+    <a href="{% url 'home' %}">Continue Shopping</a>
+</body>
+</html>

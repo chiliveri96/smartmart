@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .cart-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(33.333% - 40px); /* Three items per row with gaps */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .cart-item img {
+            width: 100%;
+            max-width: 150px;
+            border-radius: 4px;
+        }
+
+        .cart-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .cart-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .cart-item .price, .cart-item .total-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: block;
+            width: 100px;
+            padding: 10px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Items for Order ID: {{ order.order_id }}</h1>
+    
+    <div class="cart-container">
+        {% for item in items %}
+            <div class="cart-item">
+                <img src="{{ item.product_image }}" alt="{{ item.product_name }}">
+                <h3>{{ item.product_name }}</h3>
+                <p>Quantity: {{ item.quantity }}</p>
+                <p class="price">Price: ₹{{ item.price }}</p>
+                <p class="total-price">Total: ₹{{ item.total_price }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'user_orders' %}" class="back-button">Back to My Orders</a>
+</body>
+</html>

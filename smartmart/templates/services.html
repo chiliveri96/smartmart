@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .service-card i {
+            font-size: 4rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #555;
+        }
+        .back-btn {
+            margin-left: auto;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .services-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Our Services</h1>
+    </header>
+    <main>
+        <div class="services-container">
+            <div class="service-card">
+                <i class="fas fa-shipping-fast"></i>
+                <h3>Fast Delivery</h3>
+                <p>Get your orders delivered quickly and efficiently with our fast delivery service.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-box-open"></i>
+                <h3>Quality Products</h3>
+                <p>We offer a wide range of high-quality products to meet all your needs.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>Affordable Prices</h3>
+                <p>Enjoy competitive prices on all our products without compromising on quality.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-headset"></i>
+                <h3>Customer Support</h3>
+                <p>Our dedicated support team is here to assist you with any inquiries or issues.</p>
+            </div>
+        </div>
+        <a href="{% url 'home' %}" class="back-btn">Back</a>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Supermarket. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

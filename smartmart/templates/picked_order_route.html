@@ -1,0 +1,407 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Route</title>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var geocoder = new google.maps.Geocoder();
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: -34.397, lng: 150.644 } // Default center, will be changed later
+            });
+
+            directionsRenderer.setMap(map);
+
+            var shopAddress = "{{ shop_address }}";
+            var userAddress = "{{ user_address }}";
+
+            geocodeAddress(geocoder, shopAddress, function(shopLocation) {
+                geocodeAddress(geocoder, userAddress, function(userLocation) {
+                    var request = {
+                        origin: shopLocation,
+                        destination: userLocation,
+                        travelMode: 'DRIVING'
+                    };
+
+                    directionsService.route(request, function(result, status) {
+                        if (status == 'OK') {
+                            directionsRenderer.setDirections(result);
+                        } else {
+                            alert('Directions request failed due to ' + status);
+                        }
+                    });
+                });
+            });
+        }
+
+        function geocodeAddress(geocoder, address, callback) {
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status === 'OK') {
+                    callback(results[0].geometry.location);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Order Route</h1>
+    <div id="map"></div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Route</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Route</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map').setView([{{ shop_lat }}, {{ shop_lng }}], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{
+                {x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+    
+                var shopMarker = L.marker([{{ shop_lat }}, {{ shop_lng }}]).addTo(map)
+                    .bindPopup('Shop Location').openPopup();
+    
+                var userMarker = L.marker([{{ user_lat }}, {{ user_lng }}]).addTo(map)
+                    .bindPopup('User Location').openPopup();
+    
+                var latlngs = [
+                    [{{ shop_lat }}, {{ shop_lng }}],
+                    [{{ user_lat }}, {{ user_lng }}]
+                ];
+    
+                var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+    
+                map.fitBounds(polyline.getBounds());
+    
+                var distance = map.distance([{{ shop_lat }}, {{ shop_lng }}], [{{ user_lat }}, {{ user_lng }}]) / 1000;
+                alert('Distance: ' + distance.toFixed(2) + ' km');
+            });
+        </script>
+    </body>
+    </html>
+     {% comment %} {% endcomment %
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Order Route</title>
+         <style>
+             #map {
+                 height: 500px;
+                 width: 100%;
+             }
+         </style>
+         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+     </head>
+     <body>
+         <h1>Order Route</h1>
+         <div id="map"></div>
+         <script>
+             document.addEventListener('DOMContentLoaded', function () {
+                 var map = L.map('map').setView([{{ shop_lat }}, {{ shop_lng }}], 13);
+     
+                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                     attribution: '© OpenStreetMap contributors'
+                 }).addTo(map);
+     
+                 var shopLatLng = L.latLng({{ shop_lat }}, {{ shop_lng }});
+                 var userLatLng = L.latLng({{ user_lat }}, {{ user_lng }});
+     
+                 // Add marker for the shop
+                 var shopMarker = L.marker(shopLatLng).addTo(map);
+                 shopMarker.bindPopup("<b>Shop:</b> {{ shop_name }}");
+     
+                 // Add marker for the user
+                 var userMarker = L.marker(userLatLng).addTo(map);
+                 userMarker.bindPopup("<b>User Location</b>");
+     
+                 // Show popups when markers are clicked
+                 shopMarker.on('click', function () {
+                     shopMarker.openPopup();
+                 });
+     
+                 userMarker.on('click', function () {
+                     userMarker.openPopup();
+                 });
+     
+                 // Open popups initially for debugging purposes
+                 shopMarker.openPopup();
+                 userMarker.openPopup();
+             });
+         </script>
+     </body>
+     </html>
+
+      {% endcomment %}
+{% comment %} ******************* {% endcomment %}
+     {% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Route</title>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+<body>
+    <h1>Order Route</h1>
+    <div id="map"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = L.map('map').setView([{{ shop_lat }}, {{ shop_lng }}], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var shopLatLng = L.latLng({{ shop_lat }}, {{ shop_lng }});
+            var userLatLng = L.latLng({{ user_lat }}, {{ user_lng }});
+
+            // Add marker for the shop
+            var shopMarker = L.marker(shopLatLng).addTo(map);
+            shopMarker.bindPopup("<b>Shop:</b> {{ shop_name }}");
+
+            // Add marker for the user
+            
+            var userMarker = L.marker(userLatLng).addTo(map);
+                 userMarker.bindPopup("<b>User Location</b>");
+
+            L.Routing.control({
+                waypoints: [
+                    shopLatLng,
+                    userLatLng
+                ],
+                routeWhileDragging: true
+            }).addTo(map);
+
+            // Show popups when markers are clicked
+            shopMarker.on('click', function () {
+                shopMarker.openPopup();
+            });
+
+            userMarker.on('click', function () {
+                userMarker.openPopup();
+            });
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %} ****************** {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Route</title>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
+<body>
+    <h1>Order Route</h1>
+    <div id="map"></div>
+    <a href="{% url 'dispatched_orders' %}">Back</a>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = L.map('map').setView([51.505, -0.09], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var shopAddress = "{{ shop_address }}";
+            var userAddress = "{{ user_address }}";
+
+            var geocoder = L.Control.Geocoder.nominatim();
+
+            geocoder.geocode(shopAddress, function (shopResults) {
+                if (shopResults.length > 0) {
+                    var shopLatLng = [shopResults[0].center.lat, shopResults[0].center.lng];
+
+                    geocoder.geocode(userAddress, function (userResults) {
+                        if (userResults.length > 0) {
+                            var userLatLng = [userResults[0].center.lat, userResults[0].center.lng];
+
+                            L.Routing.control({
+                                waypoints: [
+                                    L.latLng(shopLatLng[0], shopLatLng[1]),
+                                    L.latLng(userLatLng[0], userLatLng[1])
+                                ],
+                                routeWhileDragging: true,
+                                createMarker: function (i, wp, nWps) {
+                                    return L.marker(wp.latLng).bindPopup(i === 0 ? "<b>Shop:</b> {{ shop_name }}" : "<b>User Location</b>");
+                                },
+                                show: false
+                            }).addTo(map);
+
+                            map.setView(shopLatLng, 13);
+                        } else {
+                            console.log("User address not found");
+                        }
+                    });
+                } else {
+                    console.log("Shop address not found");
+                }
+            });
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Route</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e9ecef;
+            position: relative;
+        }
+        #map {
+            width: 80%;
+            height: calc(70vh - 50px); /* Adjusted for the header */
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+</head>
+<body>
+    <h1>Order Route</h1>
+    <a href="{% url 'dispatched_orders' %}" class="back-button">Back</a>
+    <div id="map"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = L.map('map').setView([51.505, -0.09], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var shopAddress = "{{ shop_address }}";
+            var userAddress = "{{ user_address }}";
+
+            var geocoder = L.Control.Geocoder.nominatim();
+
+            geocoder.geocode(shopAddress, function (shopResults) {
+                if (shopResults.length > 0) {
+                    var shopLatLng = [shopResults[0].center.lat, shopResults[0].center.lng];
+
+                    geocoder.geocode(userAddress, function (userResults) {
+                        if (userResults.length > 0) {
+                            var userLatLng = [userResults[0].center.lat, userResults[0].center.lng];
+
+                            L.Routing.control({
+                                waypoints: [
+                                    L.latLng(shopLatLng[0], shopLatLng[1]),
+                                    L.latLng(userLatLng[0], userLatLng[1])
+                                ],
+                                routeWhileDragging: true,
+                                createMarker: function (i, wp, nWps) {
+                                    return L.marker(wp.latLng).bindPopup(i === 0 ? "<b>Shop:</b> {{ shop_name }}" : "<b>User Location</b>");
+                                }
+                            }).addTo(map);
+
+                            map.setView(shopLatLng, 13);
+                        } else {
+                            console.log("User address not found");
+                        }
+                    });
+                } else {
+                    console.log("Shop address not found");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

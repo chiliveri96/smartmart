@@ -1,0 +1,312 @@
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders for {{ shop.s_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: #77aaff 3px solid;
+        }
+        .logo {
+            object-fit: contain;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 36px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #77aaff;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        .orders {
+            margin: 20px 0;
+        }
+        .orders table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .orders th, .orders td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .orders th {
+            background-color: #77aaff;
+            color: #fff;
+        }
+        .orders tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .update-button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .update-button:hover {
+            background-color: #0056b3;
+        }
+       
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>Orders for {{ shop.s_name }}</h1>
+    </div>
+    <nav>
+        <a href="{% url 'shopownerprofile_op' %}">Back to Shops</a>
+    </nav>
+    <div class="container">
+        <div class="orders">
+            <h2>Order List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Order Date</th>
+                        <th>Total Price</th>
+                        <th>Payment Status</th>
+                        <th>Order Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.order_id }}</td>
+                            <td>{{ order.user.user_fname }} {{ order.user.user_lname }}</td>
+                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.total_price }}</td>
+                            <td>{{ order.payment_status }}</td>
+                            <td>{{ order.get_order_status_display }}</td>
+                            <td>
+                              
+                                <form action="{% url 'update_order_view' order.order_id %}" method="post">
+                                    {% csrf_token %}
+                                    
+                                
+                                {% with order.get_order_status_display as status %}
+                               
+                                <button class="update-button" disabled
+                                                    {% if status == "Canceled" or status == "Delivered" %}
+                                                        disabled
+                                                    {% endif %}>Update Order Status
+                                                </button>
+                                                {% endwith %}
+                                            </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 SmartMart. All Rights Reserved.
+    </footer>
+</body>
+</html> {% endcomment %}
+
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders for {{ shop.s_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: #77aaff 3px solid;
+        }
+        .logo {
+            object-fit: contain;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 36px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #77aaff;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        .orders {
+            margin: 20px 0;
+        }
+        .orders table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .orders th, .orders td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .orders th {
+            background-color: #77aaff;
+            color: #fff;
+        }
+        .orders tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>Orders for {{ shop.s_name }}</h1>
+    </div>
+    <nav>
+        <a href="{% url 'shopownerprofile_op' %}">Back to Shops</a>
+    </nav>
+    <div class="container">
+        <div class="orders">
+            <h2>Order List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Order Date</th>
+                        <th>Total Price</th>
+                        <th>Payment Status</th>
+                        <th>Order Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.order_id }}</td>
+                            <td>{{ order.user.user_fname }} {{ order.user.user_lname }}</td>
+                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.total_price }}</td>
+                            <td>{{ order.payment_status }}</td>
+                            <td>{{ order.get_order_status_display }}</td>
+                            <td>
+                                <form action="{% url 'update_order_status' %}" method="post">
+                                    {% csrf_token %}
+                                    
+                                
+                                {% with order.get_order_status_display as status %}
+                                <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                                <button type="submit" class="btn"
+                                                    {% if  status == "Canceled" or status == "Delivered" or  status == "Dispatched" or  status == "Packed"%}
+                                                        disabled
+                                                    {% endif %}>Update Order Status
+                                                </button>
+                                                {% endwith %}
+                                            </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 SmartMart. All Rights Reserved.
+    </footer>
+</body>
+</html>

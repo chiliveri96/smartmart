@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products for {{ category.category_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .header img {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .back-button {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            width: calc(33.333% - 20px);
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            height: 450px;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-img {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .product-price {
+            font-size: 16px;
+            color: #555;
+            margin: 10px 0;
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .star {
+            font-size: 20px;
+            color: gray;
+        }
+        .star.filled {
+            color: gold;
+        }
+        .product-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .product-btn:hover {
+            background-color: #0056b3;
+        }
+        .nav-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .nav-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            width: 100%;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            .product-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .product-card {
+                width: 80%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+        <a href="{% url 'display_categories' %}" class="back-button">Back to Categories</a>
+    </div>
+    <h2>Products for {{ category.category_name }}</h2>
+    <form action="{% url 'add_to_list' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+        <div class="product-container">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="product-img">
+                <div class="product-name">{{ product.product_name }}</div>
+                <div class="product-price">₹{{ product.product_price }}</div>
+                <div class="product-rating">
+                    {% for i in "12345" %}
+                        {% if product.product_rating >= i %}
+                            <span class="star filled">&#9733;</span>
+                        {% else %}
+                            <span class="star">&#9733;</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button type="submit" name="product_id" value="{{ product.product_id }}" class="product-btn">Add to List</button>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+    <div class="nav-links">
+        <a href="{% url 'display_selected_products' %}">Check out</a>
+    </div>
+    <footer>
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+        <p>Contact us at: <a href="mailto:teamsmartmart@gmail.com" style="color: #ffc107;">teamsmartmart@gmail.com</a></p>
+    </footer>
+</body>
+</html>

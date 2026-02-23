@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            background: #fff;
+            color: #333;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <h1>Products in {{ category.name }}</h1>
+    </header>
+    
+    <div class="container">
+        <h2>List of Products</h2>
+        <ul>
+            {% for product in products %}
+                <li>
+                    {{ product.name }} - {{ product.price }}$
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <h2>Add a New Product</h2>
+        <form method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            {% comment %} <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea> {% endcomment %}
+            
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            
+            {% comment %} <label for="image">Image:</label>
+            <input type="file" id="image" name="image" required>
+             {% endcomment %}
+            <button type="submit" name="add_product">Add Product</button>
+        </form>
+    </div>
+</body>
+</html>

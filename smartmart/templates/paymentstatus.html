@@ -1,0 +1,61 @@
+{% comment %} 
+<h1 class="text-center">Payment Status</h1>
+
+<div class="container mt-2">
+    {% for message in messages %}
+
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+<div class="row">
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+
+         
+<div class="alert alert-success" role="alert">
+    PAYMENT STATUS
+    </div>
+    <div class="container mt-3">
+    
+        
+        <div class="col my-4">
+    
+            <h2>Payment status regarding your order Id {{response.ORDERID}}</h2>
+            {% if response.RESPCODE == '01' %}
+            ORDER SUCCESS
+            <br>
+
+            {% else %}
+            <h2>ORDER FAILURE</h2>
+            {% endif%}
+    
+        </div>
+    
+    </div>
+
+
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+
+
+
+</div> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+</head>
+<body>
+    <h1>Payment Status</h1>
+    <p>{{ messages }}</p>
+    <!-- Display payment status to the user -->
+</body>
+</html>
+

@@ -1,0 +1,426 @@
+
+
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select {{ category.category_name}}Products</title>
+    <style>
+        /* Existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{% static "myapp/images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: #333;
+            border-bottom: #77aaff 3px solid;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            object-fit: contain;
+            width: 70px;
+            height: 70px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+        }
+        .home-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .home-btn:hover {
+            background-color: #0056b3;
+        }
+        h3, h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .products-grid, .existing-products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .product-card, .existing-product-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: calc(33.333% - 40px);
+            margin: 10px;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            box-sizing: border-box;
+            max-width: 300px;
+            position: relative;
+        }
+        .product-card:hover, .existing-product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .product-card img, .existing-product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .product-card label, .existing-product-card p {
+            display: block;
+            margin: 10px 0;
+        }
+        .product-card input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .product-card button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product-card button:hover {
+            background-color: #0056b3;
+        }
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-links a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+        .custom-checkbox {
+            display: inline-block;
+            position: relative;
+            width: 24px;
+            height: 24px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 4px;
+            transition: background-color 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .custom-checkbox-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: #007bff;
+            border-radius: 2px;
+            transition: transform 0.3s;
+        }
+        .custom-checkbox input:checked + .custom-checkbox-indicator {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .custom-checkbox input:checked ~ .product-card {
+            background-color: rgba(0, 123, 255, 0.1); /* Dim background color */
+        }
+        .custom-checkbox input:checked ~ .custom-checkbox-indicator:before {
+            content: "✔";
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            line-height: 1;
+        }
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .product-card, .existing-product-card {
+                width: calc(50% - 40px);
+            }
+        }
+        @media (max-width: 768px) {
+            .product-card, .existing-product-card {
+                width: calc(100% - 40px);
+            }
+        }
+
+        /* New styles for the Edit Price feature */
+        .edit-price-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .edit-price-input {
+            width: 80px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+        .edit-price-button, .save-price-button, .cancel-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .edit-price-button:hover, .save-price-button:hover, .cancel-button:hover {
+            background-color: #0056b3;
+        }
+        .edit-price-button, .cancel-button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+                <h1>SmartMart Online Product Ordering and Shopping</h1>
+            </div>
+            <a href="{% url 'shopownerprofile_op' %}" class="home-btn">Home</a>
+        </div>
+        {% comment %} <h3>Existing Products in this category</h3>
+        <div class="existing-products">
+            {% for product in products %}
+                <div class="existing-product-card" data-product-id="{{ product.product_id }}">
+                    <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                    <p>{{ product.product_name }} - $<span class="product-price">{{ product.product_price }}</span></p>
+                    <div class="edit-price-container">
+                        <input type="number" step="0.01" class="edit-price-input">
+                        <button class="edit-price-button">Edit Price</button>
+                        <button class="save-price-button" style="display: none;">Save</button>
+                        <button class="cancel-button" style="display: none;">Cancel</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div> {% endcomment %}
+        <h2>Select New Products for <b>"{{ category.category_name }} category"</b> </h2>
+        <form action="{% url 'store_products' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product1" name="products" value="apple">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/apple.jpeg' %}" alt="Lux">
+                    <input type="hidden" name="product_image_apple" value="{% static 'myapp/images/apple.jpeg' %}">
+                    <label for="product1">Apple</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_apple">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product2" name="products" value="greengrapes">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/greengrapes.jpeg' %}" alt="Dettol">
+                    <input type="hidden" name="product_image_greengrapes" value="{% static 'myapp/images/greengrapes.jpeg' %}">
+                    <label for="product2">Green Grapes</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_greengrapes">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product3" name="products" value="blackgrapes">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/blackgrapes.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_blackgrapes" value="{% static 'myapp/images/blackgrapes.jpeg' %}">
+                    <label for="product3">Black Grapes</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_blackgrapes">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product4" name="products" value="mango">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/mango.jpeg' %}" alt="Santhor">
+                    <input type="hidden" name="product_image_mango" value="{% static 'myapp/images/mango.jpeg' %}">
+                    <label for="product4">Mango</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_mango">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product5" name="products" value="watermelon">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/watermelon.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_watermelon" value="{% static 'myapp/images/watermelon.jpeg' %}">
+                    <label for="product3">Water Melon</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_watermelon">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product6" name="products" value="papaya">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/papaya.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_papaya" value="{% static 'myapp/images/papaya.jpeg' %}">
+                    <label for="product3">Papaya </label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_papaya">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product7" name="products" value="Kiwi-fruit">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/Kiwi-fruit.jpg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_Kiwi-fruit" value="{% static 'myapp/images/Kiwi-fruit.jpg' %}">
+                    <label for="product3">Kiwi</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_Kiwi-fruit">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product8" name="products" value="pomegranate">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/pomegranate.webp' %}" alt="Pears">
+                    <input type="hidden" name="product_image_pomegranate" value="{% static 'myapp/images/pomegranate.webp' %}">
+                    <label for="product3">pomegranate</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_pomegranate">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product9" name="products" value="dragon_fruite">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/dragon_fruite.jpg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_dragon_fruite" value="{% static 'myapp/images/dragon_fruite.jpg' %}">
+                    <label for="product3">dragon fruite</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_dragon_fruite">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product10" name="products" value="dates">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/dates.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_dates" value="{% static 'myapp/images/dates.jpeg' %}">
+                    <label for="product3">Dry Dates</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_dates">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product11" name="products" value="banana">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/banana.png' %}" alt="Pears">
+                    <input type="hidden" name="product_image_banana" value="{% static 'myapp/images/banana.png' %}">
+                    <label for="product3">Banana</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_banana">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product12" name="products" value="guava">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/guava.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_guava" value="{% static 'myapp/images/guava.jpeg' %}">
+                    <label for="product3">Guava</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_guava">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product13" name="products" value="coconut">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/coconut.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_coconut" value="{% static 'myapp/images/coconut.jpeg' %}">
+                    <label for="product3">coconut</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_coconut">
+                </div>
+                <div class="product-card">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="product14" name="products" value="oranges">
+                        <span class="custom-checkbox-indicator"></span>
+                    </label>
+                    <img src="{% static 'myapp/images/oranges.jpeg' %}" alt="Pears">
+                    <input type="hidden" name="product_image_oranges" value="{% static 'myapp/images/oranges.jpeg' %}">
+                    <label for="product3">orange</label>
+                    <span>Enter product price:</span>
+                    <input type="number" step="0.01" name="prices_oranges">
+                </div>
+                
+                <!-- Add more product cards as needed -->
+            </div>
+            <button type="submit">Submit</button>
+            <br>
+            {% comment %} <a href="{% url 'shopownerprofile_op' %}">Home</a> {% endcomment %}
+        </form>
+    </div>
+
+   
+</body>
+</html>

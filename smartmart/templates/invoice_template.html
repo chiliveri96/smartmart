@@ -1,0 +1,284 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            padding: 20px;
+        }
+        .invoice-box {
+            width: 100%;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .title {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .total {
+            text-align: right;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="title">Invoice</div>
+        <table class="table">
+            <tr>
+                <th>Product Name</th>
+                <th>Price (₹)</th>
+                <th>Quantity</th>
+                <th>Subtotal (₹)</th>
+            </tr>
+            {% for product in selected_products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>₹ {{ product.product_price|floatformat:2 }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>₹ {{ product.product_price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="total">
+            Total Price: ₹ {{ total_price|floatformat:2 }}
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+        }
+        .title {
+            font-size: 45px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 8px;
+            text-align: center;
+        }
+        table thead th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title"><h1>SmartMart Invoice</h1></div>
+    <div>
+        <h2>User Details</h2>
+        <p><strong>Name:</strong> {{ user_details.name }}</p>
+        <p><strong>Email:</strong> {{ user_details.email }}</p>
+        {% comment %} <p><strong>Address:</strong> {{ user_details.address }}</p> {% endcomment %
+    </div>
+    <div>
+        <h2>Shop Details</h2>
+        <p><strong>Name:</strong> {{ shop_details.name }}</p>
+        <p><strong>Email:</strong> {{ shop_details.email }}</p>
+        <p><strong>Address:</strong> {{ shop_details.address }}</p>
+    </div>
+    <div class="invoice-box">
+       
+        
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Price (₹)</th>
+                    <th>Quantity</th>
+                    <th>Subtotal (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in selected_products %}
+                <tr>
+                    <td>{{ product.product_id }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>₹ {{ product.product_price|floatformat:2 }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>₹ {{ product.subtotal|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">
+            Total Price: ₹ {{ total_price|floatformat:2 }}
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+        }
+        .title h1 {
+            font-size: 45px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .details div {
+            width: 45%;
+        }
+        .details h2 {
+            font-size: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 8px;
+            text-align: center;
+        }
+        table thead th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title"><h1>SmartMart Invoice</h1></div>
+    <div class="details">
+        <div>
+            <h2>User Details</h2>
+            <p><strong>Name:</strong> {{ user_details.name }}</p>
+            <p><strong>Email:</strong> {{ user_details.email }}</p>
+            <p><strong>Phone Number:</strong>{{user_details.phone_number}}
+            {% comment %} <p><strong>Address:</strong> {{ user_details.address }}</p> {% endcomment %}
+        </div>
+        <div>
+            <h2>Shop Details</h2>
+            <p><strong>Name:</strong> {{ shop_details.name }}</p>
+            <p><strong>Email:</strong> {{ shop_details.email }}</p>
+            <p><strong>Address:</strong> {{ shop_details.address }}</p>
+        </div>
+    </div>
+    <div class="invoice-box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Price (₹)</th>
+                    <th>Quantity</th>
+                    <th>Subtotal (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in selected_products %}
+                <tr>
+                    <td>{{ product.product_id }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>₹ {{ product.product_price|floatformat:2 }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>₹ {{ product.subtotal|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">
+            Total Price: ₹ {{ total_price|floatformat:2 }}
+        </div>
+    </div>
+</body>
+</html>
+
+

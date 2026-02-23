@@ -1,0 +1,227 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Boy Profile</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/delivery_boy.css' %}"> {% endcomment %
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .profile-container, .orders-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .profile-container:hover, .orders-container:hover {
+            transform: scale(1.02);
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #e9ecef;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .profile-container, .orders-container {
+                padding: 15px;
+                margin: 20px;
+            }
+        
+            h1 {
+                font-size: 1.5em;
+            }
+        
+            p, th, td {
+                font-size: 1em;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>{{ delivery_boy.first_name }} {{ delivery_boy.last_name }}</h1>
+        <p>Email: {{ delivery_boy.email }}</p>
+        <p>Phone: {{ delivery_boy.phone_number }}</p>
+        <p>Address: {{ delivery_boy.address }}</p>
+        <a href="{% url 'delivery_boy_orders' %}" class="btn">View Order History</a>
+    </div>
+    <a href="{% url 'delivery_boy_home' %}" class="btn">Back</a>
+</body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .profile-container {
+      background: linear-gradient(to bottom right, #5f9ea0, #1e90ff);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 500px;
+      width: 100%; /* Ensure it scales to the max width */
+      text-align: left;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+    
+    .label {
+      color: #ffd700; /* Gold color for labels */
+      font-weight: bold;
+    }
+
+    .edit-button,
+    .back-button {
+      color: black;
+      background-color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-top: 20px;
+      align-self: center;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+      <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="profile-container">
+      <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+      <h2>Profile</h2>
+      <p><span class="label">User Name:</span> {{ owner.first_name }}{{owner.last_name}}</p>
+      {% comment %} <p><span class="label">Last Name:</span>{{ user.user_lname }}</p> {% endcomment %}
+      <p><span class="label">Email:</span>{{ owner.email }}</p>
+      {% comment %} <p>Gender: Male</p> <!-- Replace with dynamic gender if available --> {% endcomment %}
+      {% comment %} <p><span class="label">DOB:</span>{{ owner.o_dob }}</p> {% endcomment %}
+      <p><span class="label">Address:</span>{{ owner.address }}</p>
+      <p><span class="label">Contact:</span>{{ owner.phone_number }}</p>
+    </div>
+    <div class="button-container">
+      <a href="/delivery_boy_home" class="back-button">Back</a>
+      <a href="/edit_deliveryprofile" class="edit-button">Edit</a>
+    </div>
+  </div>
+</body>
+</html>

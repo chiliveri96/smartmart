@@ -1,0 +1,318 @@
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order place</title>
+    <style>
+        /* Centering the form */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        /* Style for the locked input */
+        .readonly-input {
+            background-color: #f0f0f0; /* Light gray background */
+            border: 1px solid #ccc; /* Light gray border */
+            padding: 8px;
+            width: calc(100% - 18px); /* Adjust for padding and border */
+            cursor: not-allowed;
+            margin-bottom: 10px;
+        }
+        /* Style for labels */
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+        /* Style for file input */
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        /* Style for submit button */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <form action="{% url 'orderdone' %}" method="POST"  enctype="multipart/form-data"> {% endcomment %
+        <form action="{% url 'typesofpayments' %}" method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="usermail">User Email:</label>
+        <input type="email" name="usermail" id="usermail" value="{{usermail}}" class="readonly-input" readonly>
+        
+        <label for="shopmail">Shop Email:</label>
+        <input type="email" name="shopmail" id="shopmail" value="{{shopmail}}" class="readonly-input" readonly>
+        
+        <label for="address">Delivery Address:(full address include village,h-no,pin code)</label>
+        <input type="text" name="address" id="address" name="address" placeholder="Enter delivery address">
+        
+        <label for="invoice">Invoice:</label>
+        <input type="file" id="invoice" name="invoice">
+        {% comment %} <input type="file" type="hidden" id="invoice" name="invoice"> {% endcomment %
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placement</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        form {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .readonly-input {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px;
+            width: calc(100% - 18px);
+            cursor: not-allowed;
+            margin-bottom: 10px;
+        }
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .gif-container {
+            margin-left: 20px;
+        }
+        footer {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <h1>S M A R T S H O P P I N G</h1> {% endcomment %
+    <div class="container">
+        
+        <div>
+            <h1 class="form-header">Place Your Order</h1>
+            <form action="{% url 'typesofpayments' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="usermail">User Email:</label>
+                <input type="email" name="usermail" id="usermail" value="{{usermail}}" class="readonly-input" readonly>
+
+                <label for="shopmail">Shop Email:</label>
+                <input type="email" name="shopmail" id="shopmail" value="{{shopmail}}" class="readonly-input" readonly>
+
+                <label for="address">Delivery Address (include village, H-no, pin code):</label>
+                <input type="text" name="address" id="address" placeholder="Enter delivery address">
+
+                <label for="invoice">Invoice:</label>
+                <input type="file" id="invoice" name="invoice">
+
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+        <div class="gif-container">
+            <img src="{% static 'myapp/images/order.gif' %}" alt="Order Processing GIF" style="max-width: 300px; border-radius: 5px;">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </footer>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placement</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        form {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .readonly-input {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px;
+            width: calc(100% - 18px);
+            cursor: not-allowed;
+            margin-bottom: 10px;
+        }
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .gif-container {
+            margin-left: 20px;
+        }
+        footer {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').addEventListener('submit', function(event) {
+                var address = document.getElementById('address').value.trim();
+                var invoice = document.getElementById('invoice').files.length;
+
+                if (!address) {
+                    alert('Please enter the delivery address.');
+                    event.preventDefault();
+                } else if (!invoice) {
+                    alert('Please upload the invoice.');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1 class="form-header">Place Your Order</h1>
+            <form action="{% url 'typesofpayments' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="usermail">User Email:</label>
+                <input type="email" name="usermail" id="usermail" value="{{usermail}}" class="readonly-input" readonly>
+
+                <label for="shopmail">Shop Email:</label>
+                <input type="email" name="shopmail" id="shopmail" value="{{shopmail}}" class="readonly-input" readonly>
+
+                <label for="address">Delivery Address (include village, H-no, pin code):</label>
+                <input type="text" name="address" id="address" placeholder="Enter delivery address">
+
+                <label for="invoice">Invoice:</label>
+                <input type="file" id="invoice" name="invoice">
+
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+        <div class="gif-container">
+            <img src="{% static 'myapp/images/order.gif' %}" alt="Order Processing GIF" style="max-width: 300px; border-radius: 5px;">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </footer>
+</body>
+</html>

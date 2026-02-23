@@ -1,0 +1,636 @@
+{% comment %} {% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+</head>
+<body>
+    <h2>Select Products</h2>
+    <form action="{% url 'store_products' %}" method="post">
+        {% csrf_token %}
+        {% comment %} <input type="hidden" name="selected_category" value="{{ category_id }}"> % endcomment %}
+       <div>
+            <input type="checkbox" id="product1" name="products" value="product 5">
+            <label for="product1">product 5</label>
+            {% comment %} quantity: <input type="text" name="quantity"> % endcomment %}
+        </div>
+        <div>
+            <input type="checkbox" id="product1" name="products" value="product 7">
+            <label for="product1">product 7</label>
+            {% comment %} quantity: <input type="text" name="quantity"> % endcomment %}
+        </div>
+        <!-- Add more checkboxes as needed -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+  {% endcomment %}
+{% comment %} 
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+</head>
+<body>
+    <h2>Select Products for {{ category.category_name }}</h2>
+    <form action="{% url 'store_products' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+        
+        <div>
+            <input type="checkbox" id="product1" name="products" value="product 5">
+            <label for="product1">product 5</label>
+            
+            Enter product price:- <input type="num" name="price">
+        </div>
+        <div>
+            <input type="checkbox" id="product2" name="products" value="product 7">
+            <label for="product2">product 7</label>
+            Enter product price:- <input type="num" name="price">
+        </div>
+        <!-- Add more checkboxes as needed -->
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> {% endcomment %} 
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+</head>
+<body>
+    <h2>Select Products for {{ category.category_name }}</h2>
+    <form action="{% url 'store_products' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+        {% comment %} <input type="hidden" name="selected_category_id" value="{{ selected_category_id }}"> {%
+        <div>
+            <input type="checkbox" id="product1" name="products" value="product 5">
+            <label for="product1">Product 5</label>
+            Enter product price: <input type="number" step="0.01" name="prices">
+        </div>
+        <div>
+            <input type="checkbox" id="product2" name="products" value="product 7">
+            <label for="product2">Product 7</label>
+            Enter product price: <input type="number" step="0.01" name="prices">
+        </div>
+
+        <div>
+            <input type="checkbox" id="product3" name="products" value="product 100">
+            <label for="product3">Product 100</label>
+            Enter product price: <input type="number" step="0.01" name="prices">
+        </div>
+        <!-- Add more checkboxes as needed -->
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+</head>
+<body>
+
+    <h3>Existing Products</h3>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.product_name }} - ${{ product.product_price }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Select New Products for {{ category.category_name }}</h2>
+    <form action="{% url 'store_products' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+        
+        <div>
+            <input type="checkbox" id="product1" name="products" value="product 5">
+            <label for="product1">Product 5</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product5">
+        </div>
+        <div>
+            <input type="checkbox" id="product2" name="products" value="product 7">
+            <label for="product2">Product 7</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product7">
+        </div>
+        <div>
+            <input type="checkbox" id="product3" name="products" value="product 100">
+            <label for="product3">Product 100</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product100">
+        </div>
+        <div>
+            <input type="checkbox" id="product4" name="products" value="product 99">
+            <label for="product4">Product 99</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product99">
+        </div>
+        <!-- Add more checkboxes as needed -->
+        
+        <button type="submit">Submit</button>
+        <br>
+        <a href="{% url 'shopownerprofile_op' %}">Home</a>
+    </form>
+</body>
+ </html> {% endcomment %}
+ {% comment %}
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+</head>
+<body>
+
+    <h3>Existing Products</h3>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.product_name }} - ${{ product.product_price }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Select New Products for {{ category.category_name }}</h2>
+    <form action="{% url 'store_products' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+        
+        <div>
+            <input type="checkbox" id="product1" name="products" value="lux">
+            <img src="{% static 'myapp/images/lux.png' %}" alt="Product 5">
+            <input type="hidden" name="product_image_lux" value="{% static 'myapp/images/lux.png' %}">
+            <label for="product1">Lux</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product5">
+        </div>
+        <div>
+            <input type="checkbox" id="product2" name="products" value="dettol">
+            <img src="{% static 'myapp/images/dettol.webp' %}" alt="Product 7">
+            <input type="hidden" name="product_image_dettol" value="{% static 'myapp/images/dettol.webp' %}">
+            <label for="product2">dettol</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product7">
+        </div>
+        <div>
+            <input type="checkbox" id="product3" name="products" value="pears">
+            <img src="{% static 'myapp/images/pears.webp' %}" alt="Product 100">
+            <input type="hidden" name="product_image_pears" value="{% static 'myapp/images/pears.webp' %}">
+            <label for="product3">pears</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product100">
+        </div>
+        {% comment %} <div>
+            <input type="checkbox" id="product4" name="products" value="product 99">
+            <img src="{% static 'myapp/images/product99.jpg' %}" alt="Product 99">
+            <input type="hidden" name="product_image_product99" value="{% static 'myapp/images/product99.jpg' %}">
+            <label for="product4">Product 99</label>
+            Enter product price: <input type="number" step="0.01" name="prices_product99">
+        </div> {% endcomment %
+        <!-- Add more checkboxes as needed -->
+        
+        <button type="submit">Submit</button>
+        <br>
+        <a href="{% url 'shopownerprofile_op' %}">Home</a>
+    </form>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        h2 {
+            margin: 20px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        input[type="number"] {
+            width: 80px;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Existing Products</h3>
+        <ul>
+            {% for product in products %}
+            <li>
+                <img src="{% static product.product_image %}" alt="{{ product.product_name }}">
+                {{ product.product_name }} - ${{ product.product_price }}
+            </li>
+            {% endfor %}
+        </ul>
+        <h2>Select New Products for {{ category.category_name }}</h2>
+        <form action="{% url 'store_products' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+            
+            <div class="product">
+                <input type="checkbox" id="product1" name="products" value="lux">
+                <img src="{% static 'myapp/images/lux.png' %}" alt="Lux">
+                <input type="hidden" name="product_image_lux" value="{% static 'myapp/images/lux.png' %}">
+                <label for="product1">Lux</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_lux">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product2" name="products" value="dettol">
+                <img src="{% static 'myapp/images/dettol.webp' %}" alt="Dettol">
+                <input type="hidden" name="product_image_dettol" value="{% static 'myapp/images/dettol.webp' %}">
+                <label for="product2">Dettol</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_dettol">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product3" name="products" value="pears">
+                <img src="{% static 'myapp/images/pears.webp' %}" alt="Pears">
+                <input type="hidden" name="product_image_pears" value="{% static 'myapp/images/pears.webp' %}">
+                <label for="product3">Pears</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_pears">
+            </div>
+            
+            <!-- Add more checkboxes as needed -->
+            
+            <button type="submit">Submit</button>
+            <br>
+            <a href="{% url 'shopownerprofile_op' %}">Home</a>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        h2 {
+            margin: 20px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        input[type="number"] {
+            width: 80px;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Existing Products</h3>
+        <ul>
+            {% for product in products %}
+            <li>
+                <img src="{{ product.product_image.url }}" alt="{{  product.product_name }}">
+                {% comment %} <img src="{% static product.product_image %}" alt="{{ product.product_name }}"> {% endcomment %
+                {{ product.product_name }} - ${{ product.product_price }}
+            </li>
+            {% endfor %}
+        </ul>
+        <h2>Select New Products for {{ category.category_name }}</h2>
+        <form action="{% url 'store_products' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+            
+            <div class="product">
+                <input type="checkbox" id="product1" name="products" value="lux">
+                <img src="{% static 'myapp/images/lux.png' %}" alt="Lux">
+                <input type="hidden" name="product_image_lux" value="{% static 'myapp/images/lux.png' %}">
+                <label for="product1">Lux</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_lux">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product2" name="products" value="dettol">
+                <img src="{% static 'myapp/images/dettol.webp' %}" alt="Dettol">
+                <input type="hidden" name="product_image_dettol" value="{% static 'myapp/images/dettol.webp' %}">
+                <label for="product2">Dettol</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_dettol">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product3" name="products" value="pears">
+                <img src="{% static 'myapp/images/pears.webp' %}" alt="Pears">
+                <input type="hidden" name="product_image_pears" value="{% static 'myapp/images/pears.webp' %}">
+                <label for="product3">Pears</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_pears">
+            </div>
+            
+            <!-- Add more checkboxes as needed -->
+            
+            <button type="submit">Submit</button>
+            <br>
+            <a href="{% url 'shopownerprofile_op' %}">Home</a>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        h2 {
+            margin: 20px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        label {
+            margin-left: 10px;
+        }
+        input[type="number"] {
+            width: 80px;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #77aaff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Existing Products</h3>
+        <ul>
+            {% for product in products %}
+            <li>
+                <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="product-img">
+                {{ product.product_name }} - ${{ product.product_price }}
+            </li>
+            {% endfor %}
+        </ul>
+        <h2>Select New Products for {{ category.category_name }}</h2>
+        <form action="{% url 'store_products' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="selected_category_id" value="{{ category.category_id }}">
+            
+            <div class="product">
+                <input type="checkbox" id="product1" name="products" value="lux">
+                <img src="{% static 'myapp/images/lux.png' %}" alt="Lux">
+                <input type="hidden" name="product_image_lux" value="{% static 'myapp/images/lux.png' %}">
+                <label for="product1">Lux</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_lux">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product2" name="products" value="dettol">
+                <img src="{% static 'myapp/images/dettol.webp' %}" alt="Dettol">
+                <input type="hidden" name="product_image_dettol" value="{% static 'myapp/images/dettol.webp' %}">
+                <label for="product2">Dettol</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_dettol">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product3" name="products" value="pears">
+                <img src="{% static 'myapp/images/pears.webp' %}" alt="Pears">
+                <input type="hidden" name="product_image_pears" value="{% static 'myapp/images/pears.webp' %}">
+                <label for="product3">Pears</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_pears">
+            </div>
+            <div class="product">
+                <input type="checkbox" id="product4" name="products" value="santhor">
+                <img src="{% static 'myapp/images/santhor.jpg' %}" alt="Pears">
+                <input type="hidden" name="product_image_santhor" value="{% static 'myapp/images/santhor.jpg' %}">
+                <label for="product4">santhor</label>
+                <span>Enter product price:</span>
+                <input type="number" step="0.01" name="prices_santhor">
+            </div>
+            
+            <!-- Add more checkboxes as needed -->
+            
+            <button type="submit">Submit</button>
+            <br>
+            <a href="{% url 'shopownerprofile_op' %}">Home</a>
+        </form>
+    </div>
+</body>
+</html>

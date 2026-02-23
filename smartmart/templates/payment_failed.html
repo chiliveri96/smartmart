@@ -1,0 +1,24 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Failed</title>
+</head>
+<body>
+    <h1>Payment Failed</h1>
+    <p>Sorry, there was an error with your transaction.</p>
+    <pre>{{ response }}</pre>
+</body>
+</html>
+ {% endcomment %}
+
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Failed</title>
+</head>
+<body>
+    <h1>Payment Failed</h1>
+    <p>Reason: {{ response.RESPMSG }}</p>
+    <a href="{% url 'home' %}">Try Again</a>
+</body>
+</html>

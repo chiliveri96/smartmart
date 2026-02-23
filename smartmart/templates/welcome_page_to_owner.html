@@ -1,0 +1,1972 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jdnvln</title>
+</head>
+<body>
+    <!-- {% csrf_token %} -->
+    <h1>Welcome, {{ owner_name }}</h1>
+    {% comment %} <p>Your email: {{ owner.o_mail }}</p>
+    <!-- <a href="{% url 'shopreg' %} " class="btn btn-primary">Let's Register Shop</a> -->
+    <!-- <a href="/shopreg" class="btn btn-primary">Let's Register Shop</a> -->
+    <!-- <button onclick="window.location.href='{% url 'shopreg' %}'">Let's Register Shop</button> -->
+    <button onclick="window.location.href='/shopreg'">Let's Register Shop</button>
+
+
+
+    <!-- <button onsubmit="/shopreg ">Let's Register Shop</button> -->
+
+</body>
+</html> 
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Welcome, {{ owner_name }}</h1>
+    
+    {% if supermarkets %}
+        <h2>Supermarkets:</h2>
+        <ul>
+            {% for supermarket in supermarkets %}
+                <li>{{ supermarket.s_name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No supermarkets found.</p>
+    {% endif %}
+</body>
+</html>
+ {% endcomment %}
+{% comment %} 
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+    {% comment %} <h1>Welcome, {{ owner_name }}</h1> 
+    
+    
+    <h2>List of Shops</h2>
+    <ul>
+        {% for shop in shops %}
+            <li>{{ shop.s_name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/shopowner_onlyprofile">profile</a>
+    <a href="/shopreg">Add Shop</a>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            background: #fff;
+            color: #333;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <h1>Welcome, {{ owner_name }}</h1>
+    </header>
+    
+    <div class="container">
+        <h2>List of Shops</h2>
+        <ul>
+            {% for shop in shops %}
+                <li>
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        <a href="/display_categories">Edit Shop</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html>
+ {% endcomment %}
+{% comment %} 
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            background: #fff;
+            color: #333;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <h1>Welcome, {{ owner_name }}</h1>
+    </header>
+    
+    <div class="container">
+        <h2>List of Shops</h2>
+        <ul>
+            {% for shop in shops %}
+                <li>
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        {% comment %} <form action="{% url 'display_categories' %}" method="post"> {% endcomment 
+                            <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id}}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            background: #fff;
+            color: #333;
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <h1>Welcome, {{ owner_name }}</h1>
+    </header>
+    
+    <div class="container">
+        <h2>List of Shops</h2>
+        <ul>
+            {% for shop in shops %}
+                <li>
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+ 
+{% load static %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: #77aaff 3px solid;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .header-content img {
+            width: 50px;
+            height: 50px;
+        }
+        .header-content h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        .header-content h2 {
+            margin: 0;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 200px; /* Increased height */
+        }
+        .shop-item h3 {
+            font-size: 24px; /* Increased font size */
+            margin: 0;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <div class="header-content">
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo">
+            <div>
+                <h1>SmartMart Online Order and Delivery Platform</h1>
+                <h2>Welcome, {{ owner.o_name }}</h2>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    <h3>{{ shop.s_name }}</h3>
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            min-height: 50px;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .logo {
+            object-fit: contain;
+            margin-right: 10px;
+            width: 120px; /* Adjusted logo size */
+            cursor: pointer;
+            border-radius: 180px;
+        }
+        .header1 h1 {
+            margin-left: 10px; /* Adjusted margin for header text */
+            font-size: 24px; /* Increased font size */
+        }
+        .one h1 {
+            margin-left: 30%;
+        }
+        .shop-item a {
+            text-decoration: underline; /* Underline for shop list items */
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    <a href="#">{{ shop.s_name }}</a>
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            min-height: 50px;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .shop-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .logo {
+            object-fit: contain;
+            margin-right: 10px;
+            width: 120px; /* Adjusted logo size */
+            cursor: pointer;
+            border-radius: 180px;
+        }
+        .header1 h1 {
+            margin-left: 10px; /* Adjusted margin for header text */
+            font-size: 24px; /* Increased font size */
+        }
+        .one h1 {
+            margin-left: 30%;
+        }
+        .shop-item a {
+            text-decoration: underline; /* Underline for shop list items */
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    {% comment %} <img src="{% static shop.s_image.url %}" alt="{{ shop.s_name }}"> {% endcomment %}
+                    {% comment %} <img src="{% static myapp/images/profileimg.jpg %}"> {% endcomment %
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            min-height: 50px;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .shop-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .logo {
+            object-fit: contain;
+            margin-right: 10px;
+            width: 120px; /* Adjusted logo size */
+            cursor: pointer;
+            border-radius: 180px;
+        }
+        .header1 h1 {
+            margin-left: 10px; /* Adjusted margin for header text */
+            font-size: 24px; /* Increased font size */
+        }
+        .one h1 {
+            margin-left: 30%;
+        }
+        .shop-item a {
+            text-decoration: underline; /* Underline for shop list items */
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    {% if shop.image %}
+                        <img src="{{ shop.image.url }}" alt="{{ shop.s_name }}">
+                    {% else %}
+                        <p>No image available for {{ shop.s_name }}</p>
+                    {% endif %}
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: #77aaff 3px solid;
+        }
+        .logo {
+            object-fit: contain;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #77aaff;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        .one h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .shop-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button, .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover, .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .shop-item {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .shop-item {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <nav>
+        <a href="/shopowner_onlyprofile">Profile</a>
+        <a href="/shopreg">Add Shop</a>
+        <a href="#">Feedback</a>
+        <a href="/aboutus">About Us</a>
+        <a href="#">Logout</a>
+    </nav>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    {% if shop.image %}
+                        <img src="{{ shop.image.url }}" alt="{{ shop.s_name }}">
+                    {% else %}
+                        <p>No image available for {{ shop.s_name }}</p>
+                    {% endif %}
+                    <h3>{{ shop.s_name }}</h3>
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 SmartMart. All Rights Reserved.
+    </footer>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: #77aaff 3px solid;
+        }
+        .logo {
+            object-fit: contain;
+            width: 100px; /* Increased size */
+            height: 100px; /* Increased size */
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 36px; /* Increased size */
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #77aaff;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        .one h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .shop-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button, .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            position: relative; /* Added for star effect */
+            overflow: hidden; /* Added for star effect */
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover, .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions button::before, .actions button::after {
+            content: '★';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1rem;
+            color: yellow;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .actions button:hover::before, .actions button:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .actions button::before {
+            animation: star1 0.5s ease infinite;
+        }
+        .actions button::after {
+            animation: star2 0.5s ease infinite;
+        }
+        @keyframes star1 {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-100px, -100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        @keyframes star2 {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(100px, 100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .shop-item {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .shop-item {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <nav>
+        <a href="/shopowner_onlyprofile">Profile</a>
+        <a href="/shopreg">Add Shop</a>
+        <a href="#">Feedback</a>
+        <a href="#">About Us</a>
+        <a href="#">Logout</a>
+    </nav>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    {% if shop.image %}
+                        <img src="{{ shop.image.url }}" alt="{{ shop.s_name }}">
+                    {% else %}
+                        <p>No image available for {{ shop.s_name }}</p>
+                    {% endif %}
+                    <h3>{{ shop.s_name }}</h3>
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 SmartMart. All Rights Reserved.
+    </footer>
+</body>
+</html> {% endcomment %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            border-bottom: #77aaff 3px solid;
+        }
+        .logo {
+            object-fit: contain;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 36px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #77aaff;
+            padding: 10px 0;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        .one h1 {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .shop-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button, .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            position: relative; /* Added for star effect */
+            overflow: hidden; /* Added for star effect */
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover, .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions button::before, .actions button::after {
+            content: '★';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1rem;
+            color: yellow;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .actions button:hover::before, .actions button:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .actions button::before {
+            animation: star1 0.5s ease infinite;
+        }
+        .actions button::after {
+            animation: star2 0.5s ease infinite;
+        }
+        @keyframes star1 {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-100px, -100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        @keyframes star2 {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(100px, 100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .smart-assistant-form {
+            position: fixed;
+            right: 0;
+            bottom: 10%;
+            width: 300px;
+            
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button i {
+            margin-left: 10px;
+        }
+        @media (max-width: 768px) {
+            .shop-item {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .shop-item {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <nav>
+        <a href="/shopowner_onlyprofile">Profile</a>
+        <a href="/shopreg">Add Shop</a>
+        <a href="/feedback_owner">Feedback</a>
+        <a href="/aboutusshopowner">About Us</a>
+        <a href="/shopownerlogout">Logout</a>
+    </nav>
+    <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+    </div>
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop_data in shop_orders %}
+                <div class="shop-item">
+                    {% if shop_data.shop.image %}
+                        <img src="{{ shop_data.shop.image.url }}" alt="{{ shop_data.shop.s_name }}">
+                    {% else %}
+                        <p>No image available for {{ shop_data.shop.s_name }}</p>
+                    {% endif %}
+                    <h3>{{ shop_data.shop.s_name }}</h3>
+                    {% if shop_data.new_orders_count > 0 %}
+                        <div class="notification-badge">{{ shop_data.new_orders_count }}</div>
+                    {% endif %}
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop_data.shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                        <a href="{% url 'order_list_view' shop_data.shop.s_id %}">Go to Orders</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    <div class="smart-assistant-form">
+        <form action="{% url 'smart' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <button type="submit" id="assistant-button">Smart Assistant <i class="fa fa-microphone"></i></button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <footer>
+        &copy; 2024 SmartMart. All Rights Reserved.
+    </footer>
+</body>
+</html>
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+          /*  background-color:black;
+            color:white;*/
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+        .header-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+            .header1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      justify-content:space-around;
+    }
+
+    .logo {
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+.one h1{
+    margin-left:30%;
+}
+
+    </style>
+</head>
+<body>
+     
+    <div class="header1">
+        <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+        <h1>SmartMart Online Product Ordering and Shopping</h1>
+      </div>
+     <div class="one">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+     </div>
+    {% comment %} <header class="container">
+        <h1>Welcome, {{ owner.o_name }}</h1>
+   
+    </header> {% endcomment %
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    {{ shop.s_name }}
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            text-align: center;
+        }
+        .header {
+            margin: 20px 0;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .header-content img {
+            width: 50px;
+            height: 50px;
+        }
+        .header-content h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        .welcome-message {
+            margin: 20px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shop-item {
+            background: #fff;
+            color: #333;
+            width: calc(33.333% - 20px);
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 200px;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            animation: float 6s ease-in-out infinite;
+        }
+        .shop-item h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        .actions form {
+            display: inline;
+        }
+        .actions button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #77aaff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="container header">
+        <div class="header-content">
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo">
+            <h1>SmartMart Online Order and Delivery Platform</h1>
+        </div>
+    </header>
+    
+    <div class="container welcome-message">
+        <p>Welcome, {{ owner.o_name }}</p>
+    </div>
+    
+    <div class="container">
+        <h2>List of Shops</h2>
+        <div class="shop-grid">
+            {% for shop in shops %}
+                <div class="shop-item">
+                    <h3>{{ shop.s_name }}</h3>
+                    <div class="actions">
+                        <form action="{% url 'display_categoriesshopowner' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="shopid" value="{{ shop.s_id }}">
+                            <button type="submit">Edit Shop</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="header-links actions">
+            <a href="/shopowner_onlyprofile">Profile</a>
+            <a href="/shopreg">Add Shop</a>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}

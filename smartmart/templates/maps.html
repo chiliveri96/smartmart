@@ -1,0 +1,4456 @@
+{% comment %} {% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shops Nearby</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: {{ user_location.lat }}, lng: {{ user_location.lng }}},
+                zoom: 14
+            });
+
+            // Add markers for nearby shops
+            {% for shop in shops %}
+                new google.maps.Marker({
+                    position: {lat: {{ shop.lat }}, lng: {{ shop.lng }}},
+                    map: map,
+                    title: '{{ shop.name }}'
+                });
+            {% endfor %}
+        }
+    </script>
+</head>
+<body>
+    <h1>Shops Nearby</h1>
+    <div id="map"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGr3IkD9jtA5GeHPMI1gwi2mNRKDbcdkY&callback=initMap" async defer></script>
+
+  
+</body>
+</html> {% endcommen %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps Example</title>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 18.530411, lng: 79.627179},
+                zoom: 15
+            });
+
+            // Add marker at specified location
+            var marker = new google.maps.Marker({
+                position: {lat: 18.530411, lng: 79.627179},
+                map: map,
+                title: 'thirupathi wines id-20'
+            });
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <!-- Include Google Maps API script with your API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGr3IkD9jtA5GeHPMI1gwi2mNRKDbcdkY&callback=initMap" async defer></script>
+<br>
+<br>
+    <form action="{% url 'display_categories' %}"  method="POST">
+        {% csrf_token %}
+        <label for="shopid">Enter Shop_ID:</label>
+        <input type="text" name="shopid" id="shopid"><br><br>
+        <button type="submit" class="btn">submit</button>
+        <p>
+            {% if error_message1 %}
+            <p>{{ error_message1 }}</p>
+            
+            {% endif %}
+        </p>
+    </form>
+    <a href="/home">home</a>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <form action="{% url 'display_categories' %}"  method="POST">
+        {% csrf_token %}
+        <label for="shopid">Enter Shop_ID:</label>
+        <input type="text" name="shopid" id="shopid"><br><br>
+        <button type="submit" class="btn">submit</button>
+        <p>
+            {% if error_message1 %}
+            <p>{{ error_message1 }}</p>
+            
+            {% endif %}
+        </p>
+    </form>
+    <a href="/home">home</a>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location'
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error'
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                var shop = shops[i];
+                var marker = new google.maps.Marker({
+                    position: {lat: shop.lat, lng: shop.lng},
+                    map: map,
+                    title: shop.name + shop.id
+                });
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 100%;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                var shop = shops[i];
+                var marker = new google.maps.Marker({
+                    position: {lat: shop.lat, lng: shop.lng},
+                    map: map,
+                    title: shop.name,
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                    }
+                });
+
+                // Info window for each marker
+                var infoWindow = new google.maps.InfoWindow({
+                    content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+                });
+
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 100%;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name  + " "+ shop.id,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                }
+            });
+
+            // Info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+{% comment %} </html> 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 70%; /* Adjusted width for better layout */
+            float: left; /* Floated left for map display */
+        }
+        #shopDetails {
+            height: 600px; /* Match map height */
+            width: 30%; /* Adjusted width for details */
+            float: left; /* Floated left for details display */
+            overflow-y: auto; /* Enable scrolling for overflow content */
+            padding: 10px;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-detail {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .shop-detail h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="shopDetails"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+        var shopDetailsDiv = document.getElementById('shopDetails');
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                }
+            });
+
+            // Info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var detailsHtml = '<div class="shop-detail">';
+            detailsHtml += '<h3>' + shop.name + '</h3>';
+            detailsHtml += '<p><strong>Shop ID:</strong> ' + shop.id + '</p>';
+            detailsHtml += '<p><strong>Email:</strong> ' + shop.email + '</p>';
+            detailsHtml += '<p><strong>Phone Number:</strong> ' + shop.phonenumber + '</p>';
+            detailsHtml += '<p><strong>Type:</strong> ' + shop.type + '</p>';
+            detailsHtml += '<p><strong>Address:</strong> ' + shop.address + '</p>';
+            detailsHtml += '<p><strong>Open Time:</strong> ' + shop.opentime + '</p>';
+            detailsHtml += '<p><strong>Close Time:</strong> ' + shop.closetime + '</p>';
+            detailsHtml += '</div>';
+
+            shopDetailsDiv.innerHTML = detailsHtml;
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+
+                    // Center map on the shop found
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17); // Optionally adjust the zoom level
+                    showShopDetails(shops[i]);
+                    found = true;
+                    break; // Stop searching after the first match
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 70%;
+            float: left;
+        }
+        .shop-details {
+            height: 600px; /* Match map height */
+            width: 30%;
+            float: right;
+            overflow-y: auto; /* Enable scrolling if content exceeds container height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shop-info h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="shop-details" id="shopDetails"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                }
+            });
+
+            // Info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                // Close any previously opened info windows
+                closeAllInfoWindows();
+
+                // Open new info window
+                infoWindow.open(map, marker);
+
+                // Show shop details in the side panel
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function closeAllInfoWindows() {
+            markers.forEach(function(marker) {
+                marker.infoWindow.close();
+            });
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            // Clear previous content
+            shopDetailsContainer.innerHTML = '';
+
+            // Create shop information div
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            // Add shop details
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            // Append shop info div to container
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+
+                    // Center map on the shop found
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17); // Optionally adjust the zoom level
+
+                    // Open info window and show details
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: '<strong>' + markers[i].getTitle() + '</strong><br>Shop ID: ' + markers[i].id
+                    });
+                    infoWindow.open(map, markers[i]);
+
+                    showShopDetails(markers[i].shop); // Show details in side panel
+                    found = true;
+                    break; // Stop searching after the first match
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        #map {
+            height: 600px;
+            width: 70%;
+            float: left;
+        }
+        .shop-details {
+            height: 600px;
+            width: 30%;
+            float: right;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shop-info h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="shop-details" id="shopDetails"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                        }
+                    });
+
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000
+                    });
+
+                    map.setCenter(userLocation);
+                }, function() {
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, pos) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+                infoWindow.setPosition(pos);
+                infoWindow.open(map);
+            }
+
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                }
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                closeAllInfoWindows();
+                infoWindow.open(map, marker);
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function closeAllInfoWindows() {
+            markers.forEach(function(marker) {
+                marker.infoWindow && marker.infoWindow.close();
+            });
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+            shopDetailsContainer.innerHTML = '';
+
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17);
+
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: '<strong>' + markers[i].getTitle() + '</strong><br>Shop ID: ' + markers[i].id
+                    });
+                    infoWindow.open(map, markers[i]);
+
+                    showShopDetails(markers[i].shop);
+                    found = true;
+                    break;
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+</body>
+</html> {% endcomment %}
+
+
+{% comment %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 100%;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                var shop = shops[i];
+                var marker = new google.maps.Marker({
+                    position: {lat: shop.lat, lng: shop.lng},
+                    map: map,
+                    title: shop.name,
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                    }
+                });
+
+                // Info window for each marker
+                var infoWindow = new google.maps.InfoWindow({
+                    content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+                });
+
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> 
+
+<!-- shop_map.html -->
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location'
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error'
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                var shop = shops[i];
+                var marker = new google.maps.Marker({
+                    position: {lat: shop.lat, lng: shop.lng},
+                    map: map,
+                    title: shop.name
+                });
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        /* CSS for your map can go here */
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 70%;
+            float: left;
+        }
+        .shop-details {
+            height: 600px; /* Match map height */
+            width: 30%;
+            float: right;
+            overflow-y: auto; /* Enable scrolling if content exceeds container height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shop-info h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="shop-details" id="shopDetails"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function() {
+                    // Handle geolocation error
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Custom icon for shops
+                }
+            });
+
+            // Info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                // Close any previously opened info windows
+                closeAllInfoWindows();
+
+                // Open new info window
+                infoWindow.open(map, marker);
+
+                // Show shop details in the side panel
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function closeAllInfoWindows() {
+            markers.forEach(function(marker) {
+                marker.infoWindow.close();
+            });
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            // Clear previous content
+            shopDetailsContainer.innerHTML = '';
+
+            // Create shop information div
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            // Add shop details
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            // Append shop info div to container
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+
+                    // Center map on the shop found
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17); // Optionally adjust the zoom level
+
+                    // Open info window and show details
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: '<strong>' + markers[i].getTitle() + '</strong><br>Shop ID: ' + markers[i].id
+                    });
+                    infoWindow.open(map, markers[i]);
+
+                    showShopDetails(markers[i].shop); // Show details in side panel
+                    found = true;
+                    break; // Stop searching after the first match
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+</body>
+</html>  {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 100%;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            // Try HTML5 geolocation to get the user's current position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    console.log('User Location:', userLocation); // Debugging
+
+                    // Add a marker for the user's current location
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Custom icon for user location
+                        }
+                    });
+
+                    // Add a circle around the user's current location
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000 // Specify the radius in meters
+                    });
+
+                    // Center the map on the user's location
+                    map.setCenter(userLocation);
+                }, function(error) {
+                    console.error('Geolocation error:', error); // Debugging
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, userLocation) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+
+                var userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Error',
+                    icon: {
+                        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for error
+                    }
+                });
+
+                userMarker.addListener('click', function() {
+                    infoWindow.open(map, userMarker);
+                });
+            }
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            console.log('Shops Data:', shops); // Debugging
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Custom icon for shops
+                }
+            });
+
+            // Info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + '<b>' + shop.id + '</b>' + '<br>Shop Email:<b>' + shop.mail + '</b>'
+            });
+
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+
+                    // Center map on the shop found
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17); // Optionally adjust the zoom level
+                    found = true;
+                    break; // Stop searching after the first match
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+    </script>
+    
+</body>
+</html> {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 100%;
+            display: none; /* Initially hide the map */
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <label for="address">Enter Your Address:</label>
+        <input type="text" id="address" name="address" placeholder="Enter your address...">
+        <button type="button" onclick="geocodeAddress()">Submit</button>
+        <p class="error-message" id="address-error"></p>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var userMarker;
+        var userCircle;
+        var markers = [];
+
+        function geocodeAddress() {
+            var address = document.getElementById('address').value;
+            var errorElement = document.getElementById('address-error');
+
+            // Use OpenCage API for geocoding
+            var apiKey = '43a7af7e557a48d9ad3269516d7f2d67';
+            var geocodeURL = 'https://api.opencagedata.com/geocode/v1/json?q=' + encodeURIComponent(address) + '&key=' + apiKey;
+
+            fetch(geocodeURL)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        var location = data.results[0].geometry;
+                        var userLocation = {
+                            lat: location.lat,
+                            lng: location.lng
+                        };
+                        console.log('Geocoded Location:', userLocation); // Debugging
+                        if (!map) {
+                            initMap(userLocation);
+                        } else {
+                            updateMap(userLocation);
+                        }
+                        errorElement.textContent = ''; // Clear error message
+                    } else {
+                        errorElement.textContent = 'Address not found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Geocoding error:', error);
+                    errorElement.textContent = 'Geocode was not successful.';
+                });
+        }
+
+        function initMap(userLocation) {
+            document.getElementById('map').style.display = 'block'; // Show the map
+
+            map = L.map('map').setView([userLocation.lat, userLocation.lng], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Add a marker for the user's current location
+            userMarker = L.marker([userLocation.lat, userLocation.lng], {title: 'Your Location'}).addTo(map)
+                .bindPopup('Your Location')
+                .openPopup();
+
+            // Add a circle around the user's current location
+            userCircle = L.circle([userLocation.lat, userLocation.lng], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 1000
+            }).addTo(map);
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            console.log('Shops Data:', shops); // Debugging
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function updateMap(userLocation) {
+            map.setView([userLocation.lat, userLocation.lng], 15);
+
+            // Remove the previous user marker and circle
+            if (userMarker) {
+                map.removeLayer(userMarker);
+            }
+            if (userCircle) {
+                map.removeLayer(userCircle);
+            }
+
+            // Add a new marker for the user's current location
+            userMarker = L.marker([userLocation.lat, userLocation.lng], {title: 'Your Location'}).addTo(map)
+                .bindPopup('Your Location')
+                .openPopup();
+
+            // Add a new circle around the user's current location
+            userCircle = L.circle([userLocation.lat, userLocation.lng], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 1000
+            }).addTo(map);
+
+            // Clear all existing shop markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            console.log('Shops Data:', shops); // Debugging
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng], {title: shop.name}).addTo(map);
+
+            var popupContent = '<strong>' + shop.name + '</strong><br>Shop ID: <b>' + shop.id + '</b><br>Shop Email: <b>' + shop.mail + '</b>';
+            marker.bindPopup(popupContent);
+
+            markers.push(marker);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getPopup().getContent().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    map.setView(markers[i].getLatLng(), 17); // Optionally adjust the zoom level
+                    markers[i].openPopup();
+                    found = true;
+                    break; // Stop searching after the first match
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #header {
+            width: 100%;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        #map {
+            height: 600px;
+            width: 60%;
+        }
+        .right-container {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .shop-details {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .form-container label, .form-container input, .form-container button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shop-info h3 {
+            margin-top: 0;
+        }
+        #searchForm {
+            width: 300px;
+            margin: 20px auto;
+        }
+        @media (max-width: 800px) {
+            #map, .right-container {
+                width: 100%;
+                height: 400px;
+            }
+            .right-container {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 600px) {
+            .form-container, #searchForm {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Nearby Shops</h1>
+    </div>
+    <div id="searchForm">
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+    </div>
+    <div id="container">
+        <div id="map"></div>
+        <div class="right-container">
+            <div class="shop-details" id="shopDetails"></div>
+            <div class="form-container">
+                <form action="{% url 'display_categories' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="shopid">Enter Shop_ID:</label>
+                    <input type="text" name="shopid" id="shopid"><br><br>
+                    <button type="submit" class="btn">Submit</button>
+                    {% if error_message1 %}
+                        <p class="error-message">{{ error_message1 }}</p>
+                    {% endif %}
+                </form>
+                <a href="/home">Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 15,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "off" }
+                        ]
+                    }
+                ]
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    var userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'Your Location',
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                        }
+                    });
+
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: userLocation,
+                        radius: 1000
+                    });
+
+                    map.setCenter(userLocation);
+                }, function() {
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                handleLocationError(false, map.getCenter());
+            }
+
+            function handleLocationError(browserHasGeolocation, pos) {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.'
+                });
+                infoWindow.setPosition(pos);
+                infoWindow.open(map);
+            }
+
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = new google.maps.Marker({
+                position: {lat: shop.lat, lng: shop.lng},
+                map: map,
+                title: shop.name,
+                icon: {
+                    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                }
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id
+            });
+
+            marker.addListener('click', function() {
+                closeAllInfoWindows();
+                infoWindow.open(map, marker);
+                showShopDetails(shop);
+            });
+
+            marker.infoWindow = infoWindow;
+            marker.shop = shop;
+            markers.push(marker);
+        }
+
+        function closeAllInfoWindows() {
+            markers.forEach(function(marker) {
+                marker.infoWindow && marker.infoWindow.close();
+            });
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+            shopDetailsContainer.innerHTML = '';
+
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var markerTitle = markers[i].getTitle().toLowerCase();
+                if (markerTitle.indexOf(searchTerm) !== -1) {
+                    markers[i].setVisible(true);
+                    map.setCenter(markers[i].getPosition());
+                    map.setZoom(17);
+
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: '<strong>' + markers[i].getTitle() + '</strong><br>Shop ID: ' + markers[i].shop.id
+                    });
+                    infoWindow.open(map, markers[i]);
+
+                    showShopDetails(markers[i].shop);
+                    found = true;
+                    break;
+                } else {
+                    markers[i].setVisible(false);
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    </script>
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 70%;
+            float: left;
+        }
+        .shop-details {
+            height: 600px; /* Match map height */
+            width: 30%;
+            float: right;
+            overflow-y: auto; /* Enable scrolling if content exceeds container height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+        }
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shop-info h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="shop-details" id="shopDetails"></div>
+    <div class="form-container">
+        <form action="{% url 'display_categories' %}"  method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid"><br><br>
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+        <form id="searchForm">
+            <label for="searchTerm">Search Shops:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+            <button type="button" onclick="searchShops()" class="btn">Search</button>
+        </form>
+        <a href="/home">Home</a>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+
+            map = L.map('map').setView(defaultLocation, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+
+            // Add a marker for the default location
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('current location')
+                .openPopup();
+
+            // Add markers for each shop
+            var shops = {{ shops|safe }};
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+
+            marker.on('click', function() {
+                // Show shop details in the side panel
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            // Clear previous content
+            shopDetailsContainer.innerHTML = '';
+
+            // Create shop information div
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            // Add shop details
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            // Append shop info div to container
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var markerPopup = marker.getPopup();
+                var markerContent = markerPopup.getContent().toLowerCase();
+
+                if (markerContent.indexOf(searchTerm) !== -1) {
+                    marker.openPopup();
+                    map.setView(marker.getLatLng(), 17); // Optionally adjust the zoom level
+                    showShopDetails(marker.shop); // Show details in side panel
+                    found = true;
+                    break; // Stop searching after the first match
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+
+        // Initialize the map
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %}  
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-top-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .form-top-container form {
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-top-container a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #map {
+            height: 600px; /* Increased height for better visibility */
+            width: 70%;
+            float: left;
+        }
+
+        .shop-details {
+            height: auto; /* Adjust height for responsiveness */
+            width: 30%;
+            float: right;
+            overflow-y: auto; /* Enable scrolling if content exceeds container height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .shop-info h3 {
+            margin-top: 0;
+        }
+
+        @media (min-width: 768px) {
+            .form-top-container form {
+                width: auto;
+            }
+
+            .form-top-container a {
+                margin-left: 0;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maps Page - Select Shop</h1>
+        <div class="form-top-container">
+            <form id="searchForm">
+                <label for="searchTerm">Search Shops:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name...">
+                <button type="button" onclick="searchShops()" class="btn">Search</button>
+            </form>
+            <a href="/home">Home</a>
+        </div>
+        <div id="map"></div>
+        <div class="shop-details" id="shopDetails"></div>
+        <div class="form-top-container">
+            
+        </div>
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid">
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+    </div>
+    
+{% if message %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function speak(message) {
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech);
+        }
+        speak("select near by shop or Search your shop");
+    });
+</script>
+{% endif %}
+    <div class="footer">
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+
+            map = L.map('map').setView(defaultLocation, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 10,
+            }).addTo(map);
+
+            // Add a marker for the default location
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('current location')
+                .openPopup();
+
+            // Add a circle around the default location with a 10 km radius
+            var circle = L.circle(defaultLocation, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 10000 // 10 km radius
+            }).addTo(map);
+
+            // Add markers for each shop
+            var shops = JSON.parse('{{ shops|escapejs }}');
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+
+            marker.on('click', function() {
+                // Show shop details in the side panel
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            // Clear previous content
+            shopDetailsContainer.innerHTML = '';
+
+            // Create shop information div
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            // Add shop details
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            // Append shop info div to container
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var markerPopup = marker.getPopup();
+                var markerContent = markerPopup.getContent().toLowerCase();
+
+                if (markerContent.indexOf(searchTerm) !== -1) {
+                    marker.openPopup();
+                    map.setView(marker.getLatLng(), 17); // Optionally adjust the zoom level
+                    showShopDetails(marker.shop); // Show details in side panel
+                    found = true;
+                    break; // Stop searching after the first match
+                }
+            }
+
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+
+        // Initialize the map
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+ </html>  {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-container {
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label, 
+        .form-container input, 
+        .form-container button {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .form-top-container form {
+            max-width: 300px;
+            flex: 1;
+        }
+
+        .form-top-container a {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-top-container a:hover {
+            background-color: #45a049;
+        }
+
+        #map {
+            height: 600px;
+            flex: 1;
+        }
+
+        .shop-details {
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .shop-info h3 {
+            margin-top: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+
+        .form-bottom-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .form-bottom-container form {
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-bottom-container label {
+            margin-bottom: 10px;
+        }
+
+        .form-bottom-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .form-bottom-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-bottom-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maps Page - Select Shop</h1>
+        <div class="form-top-container">
+            <form id="searchForm">
+                <label for="searchTerm">Search Shops:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name or type...">
+                <button type="button" onclick="searchShops()" class="btn">Search</button>
+            </form>
+            <a href="/home">Home</a>
+        </div>
+        <div id="map"></div>
+        <div class="shop-details" id="shopDetails"></div>
+        <div class="form-bottom-container">
+            <form action="{% url 'display_categories' %}" method="POST">
+                {% csrf_token %}
+                <label for="shopid">Enter Shop_ID:</label>
+                <input type="text" name="shopid" id="shopid">
+                <button type="submit" class="btn">Submit</button>
+                {% if error_message1 %}
+                    <p class="error-message">{{ error_message1 }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    
+    {% if message %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function speak(message) {
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.rate = 1;
+                speech.pitch = 1;
+                window.speechSynthesis.speak(speech);
+            }
+            speak("select near by shop or Search your shop");
+        });
+    </script>
+    {% endif %}
+    
+    <div class="footer">
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+    
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+    
+            map = L.map('map').setView(defaultLocation, 15);
+    
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+    
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('current location')
+                .openPopup();
+    
+            var circle = L.circle(defaultLocation, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 10000 // 10 km radius
+            }).addTo(map);
+    
+            var shops = JSON.parse('{{ shops|escapejs }}');
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+    
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+    
+            marker.shop = shop; // Attach shop data to the marker
+    
+            marker.on('click', function() {
+                showShopDetails(shop);
+            });
+    
+            markers.push(marker);
+        }
+    
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+    
+            shopDetailsContainer.innerHTML = '';
+    
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+    
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+    
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+    
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+    
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+    
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+    
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+    
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+    
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var found = false;
+    
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var shop = marker.shop;
+                var markerContent = shop.name.toLowerCase() + ' ' + shop.type.toLowerCase();
+    
+                if (markerContent.indexOf(searchTerm) !== -1) {
+                    marker.openPopup();
+                    map.setView(marker.getLatLng(), 17);
+                    showShopDetails(shop);
+                    found = true;
+                    break;
+                }
+            }
+    
+            if (!found) {
+                alert('Shop not found.');
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+    
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-top-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .form-top-container form {
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-top-container a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .shop-details {
+            height: auto;
+            width: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .shop-info h3 {
+            margin-top: 0;
+        }
+
+        @media (min-width: 768px) {
+            .form-top-container form {
+                width: auto;
+            }
+
+            .form-top-container a {
+                margin-left: 0;
+            }
+
+            #map {
+                width: 70%;
+                float: left;
+            }
+
+            .shop-details {
+                width: 30%;
+                float: right;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maps Page - Select Shop</h1>
+        <div class="form-top-container">
+            <form id="searchForm">
+                <label for="searchTerm">Search Shops:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name or type...">
+                <button type="button" onclick="searchShops()" class="btn">Search</button>
+            </form>
+            <a href="/home">Home</a>
+        </div>
+        <div id="map"></div>
+        <div class="shop-details" id="shopDetails"></div>
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid">
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+    </div>
+    
+    {% if message %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function speak(message) {
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.rate = 1;
+                speech.pitch = 1;
+                window.speechSynthesis.speak(speech);
+            }
+            speak("select nearby shop or Search your shop");
+        });
+    </script>
+    {% endif %}
+    <div class="footer">
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+
+            map = L.map('map').setView(defaultLocation, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 10,
+            }).addTo(map);
+
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('current location')
+                .openPopup();
+
+            var circle = L.circle(defaultLocation, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 10000 // 10 km radius
+            }).addTo(map);
+
+            var shops = JSON.parse('{{ shops|escapejs }}');
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+
+            marker.shop = shop;
+
+            marker.on('click', function() {
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            shopDetailsContainer.innerHTML = '';
+
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var results = [];
+
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var shop = marker.shop;
+
+                if (shop.name.toLowerCase().includes(searchTerm) || shop.type.toLowerCase().includes(searchTerm)) {
+                    marker.addTo(map);
+                    results.push(marker);
+                } else {
+                    map.removeLayer(marker);
+                }
+            }
+
+            if (results.length > 0) {
+                map.setView(results[0].getLatLng(), 15);
+                showShopDetails(results[0].shop);
+            } else {
+                alert('Shop not found.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-top-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .form-top-container form {
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-top-container a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .shop-details {
+            height: auto;
+            width: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .shop-info h3 {
+            margin-top: 0;
+        }
+        
+        .buy-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .buy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .smart-assistant-form {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 300px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+        @media (min-width: 768px) {
+            .form-top-container form {
+                width: auto;
+            }
+
+            .form-top-container a {
+                margin-left: 0;
+            }
+
+            #map {
+                width: 70%;
+                float: left;
+            }
+
+            .shop-details {
+                width: 30%;
+                float: right;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maps Page - Select Shop</h1>
+        <div class="form-top-container">
+            <form id="searchForm">
+                <label for="searchTerm">Search Shops:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name or type...">
+                <button type="button" onclick="searchShops()" class="btn">Search</button>
+            </form>
+            <a href="/home">Home</a>
+        </div>
+        <div id="map"></div>
+        <div class="shop-details" id="shopDetails"></div>
+        <form action="{% url 'display_categories' %}" method="POST">
+            {% csrf_token %}
+            <label for="shopid">Enter Shop_ID:</label>
+            <input type="text" name="shopid" id="shopid">
+            <button type="submit" class="btn">Submit</button>
+            {% if error_message1 %}
+                <p class="error-message">{{ error_message1 }}</p>
+            {% endif %}
+        </form>
+    </div>
+    
+<div class="smart-assistant-form">
+    <form action="{% url 'smart' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" id="assistant-button">Smart Assistant <i class="fa fa-microphone"></i></button>
+        </div>
+    </form>
+</div>
+    
+    {% if message %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function speak(message) {
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.rate = 1;
+                speech.pitch = 1;
+                window.speechSynthesis.speak(speech);
+            }
+            speak("select nearby shop or Search your shop");
+        });
+    </script>
+    {% endif %}
+    <div class="footer">
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+        //var userLocation;
+
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+
+            map = L.map('map').setView(defaultLocation, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 10,
+            }).addTo(map);
+
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('Current location')
+                .openPopup();
+
+            var circle = L.circle(defaultLocation, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 10000 // 10 km radius
+            }).addTo(map);
+
+            var shops = JSON.parse('{{ shops|escapejs }}');
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+            
+          //  getUserLocation();
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+
+            marker.shop = shop;
+
+            marker.on('click', function() {
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            shopDetailsContainer.innerHTML = '';
+
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var results = [];
+
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var shop = marker.shop;
+
+                if (shop.name.toLowerCase().includes(searchTerm) || shop.type.toLowerCase().includes(searchTerm)) {
+                    marker.addTo(map);
+                    results.push(marker);
+                    showShopDetails(results[0].shop);
+                    
+                } else {
+                    map.removeLayer(marker);
+                }
+            }
+
+            if (results.length > 0) {
+                map.setView(defaultLocation, 15);
+                showShopDetails(results[0].shop);
+                
+            } else {
+                alert('Shop not found.');
+            }
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    userLocation = [position.coords.latitude, position.coords.longitude];
+                    map.setView(userLocation, 15);
+                    L.marker(userLocation).addTo(map).bindPopup('You are here').openPopup();
+                }, function() {
+                    alert('Geolocation failed. Using default location.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser. Using default location.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Shops</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+         a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-top-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-container label, .form-container input, .form-container button, .form-container select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .form-top-container form {
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-top-container a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+         .form-top-container a {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .shop-details {
+            height: auto;
+            width: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .shop-info {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .shop-info h3 {
+            margin-top: 0;
+        }
+
+        .buy-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .buy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .smart-assistant-form {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 300px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .shop-search-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .shop-search-section form, .shop-id-section form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-search-section form input, .shop-id-section form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .shop-search-section form button, .shop-id-section form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .shop-search-section form button:hover, .shop-id-section form button:hover {
+            background-color: #45a049;
+        }
+
+        .home-link {
+            position: fixed;
+            top: 20px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+        
+        .home-link:hover {
+            background-color: #45a049;
+        }
+        
+        @media (min-width: 768px) {
+            .form-top-container form {
+                width: auto;
+            }
+
+            .form-top-container a {
+                margin-left: 0;
+            }
+
+            #map {
+                width: 70%;
+                float: left;
+            }
+
+            .shop-details {
+                width: 30%;
+                float: right;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <a href="/home" class="home-link">Home</a>
+
+    <div class="container">
+        <h1>Maps Page - Select Shop</h1>
+        <div class="shop-search-section">
+            <form id="searchForm">
+                <label for="searchTerm">Search Shops:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter shop name or type...">
+                <button type="button" onclick="searchShops()" class="btn">Search</button>
+            </form>
+        </div>
+        {% comment %} <a href="/home" class="btn">Home</a> {% endcomment %}
+        <div id="map"></div>
+        <div class="shop-details" id="shopDetails"></div>
+        <div class="shop-id-section">
+            <form action="{% url 'display_categories' %}" method="POST">
+                {% csrf_token %}
+                <label for="shopid">Enter Shop_ID:</label>
+                <input type="text" name="shopid" id="shopid">
+                <button type="submit" class="btn">Submit</button>
+                {% if error_message1 %}
+                    <p class="error-message">{{ error_message1 }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <div class="smart-assistant-form">
+        <form action="{% url 'smart' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <button type="submit" id="assistant-button">Smart Assistant <i class="fa fa-microphone"></i></button>
+            </div>
+        </form>
+    </div>
+    
+    {% if message %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function speak(message) {
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.rate = 1;
+                speech.pitch = 1;
+                window.speechSynthesis.speak(speech);
+            }
+            speak("select nearby shop or Search your shop");
+        });
+    </script>
+    {% endif %}
+    <div class="footer">
+        <p>&copy; 2024 SmartMart. All rights reserved.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var markers = [];
+        //var userLocation;
+
+        function initMap() {
+            var defaultLocation = [18.6439, 79.5475]; // Coordinates for JNTUH Manthani@Centenary Colony-CANTEEN
+
+            map = L.map('map').setView(defaultLocation, 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 12,
+            }).addTo(map);
+
+            var defaultMarker = L.marker(defaultLocation).addTo(map)
+                .bindPopup('Current location')
+                .openPopup();
+
+            var circle = L.circle(defaultLocation, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 10000 // 10 km radius
+            }).addTo(map);
+
+            var shops = JSON.parse('{{ shops|escapejs }}');
+            for (var i = 0; i < shops.length; i++) {
+                addMarker(shops[i]);
+            }
+            
+          //  getUserLocation();
+        }
+
+        function addMarker(shop) {
+            var marker = L.marker([shop.lat, shop.lng]).addTo(map)
+                .bindPopup('<strong>' + shop.name + '</strong><br>Shop ID: ' + shop.id);
+
+            marker.shop = shop;
+
+            marker.on('click', function() {
+                showShopDetails(shop);
+            });
+
+            markers.push(marker);
+        }
+
+        function showShopDetails(shop) {
+            var shopDetailsContainer = document.getElementById('shopDetails');
+
+            shopDetailsContainer.innerHTML = '';
+
+            var shopInfoDiv = document.createElement('div');
+            shopInfoDiv.classList.add('shop-info');
+
+            var shopName = document.createElement('h3');
+            shopName.textContent = shop.name;
+            shopInfoDiv.appendChild(shopName);
+
+            var shopId = document.createElement('p');
+            shopId.textContent = 'Shop ID: ' + shop.id;
+            shopInfoDiv.appendChild(shopId);
+
+            var shopType = document.createElement('p');
+            shopType.textContent = 'Type: ' + shop.type;
+            shopInfoDiv.appendChild(shopType);
+
+            var shopAddress = document.createElement('p');
+            shopAddress.textContent = 'Address: ' + shop.address;
+            shopInfoDiv.appendChild(shopAddress);
+
+            var shopOpenTime = document.createElement('p');
+            shopOpenTime.textContent = 'Open Time: ' + shop.opentime;
+            shopInfoDiv.appendChild(shopOpenTime);
+
+            var shopCloseTime = document.createElement('p');
+            shopCloseTime.textContent = 'Close Time: ' + shop.closetime;
+            shopInfoDiv.appendChild(shopCloseTime);
+
+            shopDetailsContainer.appendChild(shopInfoDiv);
+        }
+
+        function searchShops() {
+            var searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            var results = [];
+
+            for (var i = 0; i < markers.length; i++) {
+                var marker = markers[i];
+                var shop = marker.shop;
+
+                if (shop.name.toLowerCase().includes(searchTerm) || shop.type.toLowerCase().includes(searchTerm)) {
+                    marker.addTo(map);
+                    results.push(marker);
+                    showShopDetails(results[0].shop);
+                    
+                } else {
+                    map.removeLayer(marker);
+                }
+            }
+
+            if (results.length > 0) {
+                map.setView(defaultLocation, 15);
+                showShopDetails(results[0].shop);
+                
+            } else {
+                alert('Shop not found.');
+            }
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    userLocation = [position.coords.latitude, position.coords.longitude];
+                    map.setView(userLocation, 15);
+                    L.marker(userLocation).addTo(map).bindPopup('You are here').openPopup();
+                }, function() {
+                    alert('Geolocation failed. Using default location.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser. Using default location.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+</html>

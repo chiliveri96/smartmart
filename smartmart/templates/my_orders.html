@@ -1,0 +1,1066 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Your Orders</title>
+</head>
+<body>
+    <h1>Your Orders</h1>
+    <p>User: {{ user.user_fname }} {{ user.user_lname }}</p>
+    <p>Email: {{ user.user_mail }}</p>
+    <h2>Order History</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Details</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>${{ order.total_price }}</td>
+            <td>
+                <ul>
+                {% for item in order.items.all %}
+                    <li>{{ item.product.product_name }} - Quantity: {{ item.quantity }} - Price: ${{ item.price }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'home' %}">Back to Shop</a>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Orders</title>
+</head>
+<body>
+    <h1>Your Orders</h1>
+    <p>User: {{ user.user_fname }} {{ user.user_lname }}</p>
+    <p>Email: {{ user.user_mail }}</p>
+    <h2>Order History</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Payment Status</th>
+            <th>Details</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>₹{{ order.total_price }}</td>
+            <td>{{ order.payment.payment_status }}</td>
+            <td>
+                <ul>
+                {% for item in order.items.all %}
+                    <li>{{ item.product.product_name }} - Quantity: {{ item.quantity }} - Price: ₹{{ item.price }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'home' %}">Back to Shop</a>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .track-button, .cancel-button {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons form {
+            display: inline-block;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <p>Welcome, {{ user.user_fname }} {{ user.user_lname }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_order_status_display }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td class="action-buttons">
+                        <form method="post" action="{% url 'track_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            <button type="submit" class="track-button">Track Order</button>
+                        </form>
+                        <form method="post" action="{% url 'cancel_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            <button type="submit" class="cancel-button">Cancel Order</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .track-button, .cancel-button {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .cancel-button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons form {
+            display: inline-block;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <p>Welcome, {{ user.user_fname }} {{ user.user_lname }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_order_status_display }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td class="action-buttons">
+                        <form method="post" action="{% url 'track_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            <button type="submit" class="track-button">Track Order</button>
+                        </form>
+                        <form method="post" action="{% url 'cancel_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            <button type="submit" class="cancel-button" 
+                                {% if order.order_status == "Dispatched" or order.order_status == "Canceled" or order.order_status == "Delivered" %}
+                                    disabled
+                                {% endif %}>
+                                Cancel Order
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .track-button, .cancel-button {
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .cancel-button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .track-button[disabled]
+        {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons form {
+            display: inline-block;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <p>Welcome, {{ user.user_fname }} {{ user.user_lname }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_order_status_display }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td class="action-buttons">
+                        <form method="post" action="{% url 'track_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="track-button"
+                            {% if status == "Canceled" %}
+                                    disabled
+                                {% endif %}
+                                >Track Order</button>{% endwith %}
+                        </form>
+                        <form method="post" action="{% url 'cancel_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="cancel-button" 
+                                {% if status == "Dispatched" or status == "Canceled" or status == "Delivered" %}
+                                    disabled
+                                {% endif %}>
+                                Cancel Order
+                            </button>
+                            {% endwith %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .track-button, .cancel-button, .items-button {
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .track-button {
+            background-color: #3498db;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .items-button {
+            background-color: #2ecc71;
+        }
+
+        .items-button:hover {
+            background-color: #27ae60;
+        }
+
+        .cancel-button[disabled], .track-button[disabled], .items-button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons form {
+            display: inline-block;
+            margin: 0 2px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .modal th, .modal td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .modal th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <p>Welcome, {{ user.user_fname }} {{ user.user_lname }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_order_status_display }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td class="action-buttons">
+                        <form method="post" action="{% url 'track_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="track-button" {% if status == "Canceled" %}disabled{% endif %}>Track Order</button>
+                            {% endwith %}
+                        </form>
+                        <form method="post" action="{% url 'cancel_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="cancel-button" {% if status == "Dispatched" or status == "Canceled" or status == "Delivered" %}disabled{% endif %}>Cancel Order</button>
+                            {% endwith %}
+                        </form>
+                        <button class="items-button" onclick="openModal('{{ order.order_id }}')">Order Items</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div id="orderItemsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Order Items for Order ID: <span id="modalOrderId"></span></h2>
+            <table id="orderItemsTable">
+                <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Items will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function openModal(orderId) {
+            document.getElementById('modalOrderId').innerText = orderId;
+            fetchOrderItems(orderId);
+            document.getElementById('orderItemsModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('orderItemsModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('orderItemsModal')) {
+                closeModal();
+            }
+        }
+
+        function fetchOrderItems(orderId) {
+            fetch(`/order_items/${orderId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('orderItemsTable').getElementsByTagName('tbody')[0];
+                    tbody.innerHTML = '';
+                    data.items.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                          
+                            <td>${item.product_name}</td>
+                            <td>${item.quantity}</td>
+                            <td>$${item.price}</td>
+                            <td>$${item.total_price}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching order items:', error));
+        }
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .track-button, .cancel-button, .items-button {
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .track-button {
+            background-color: #3498db;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .items-button {
+            background-color: #2ecc71;
+        }
+
+        .items-button:hover {
+            background-color: #27ae60;
+        }
+
+        .cancel-button[disabled], .track-button[disabled], .items-button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons form {
+            display: inline-block;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <p>Welcome, {{ user.user_fname }} {{ user.user_lname }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_order_status_display }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td class="action-buttons">
+                        <form method="post" action="{% url 'track_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="track-button" {% if status == "Canceled" %}disabled{% endif %}>Track Order</button>
+                            {% endwith %}
+                        </form>
+                        <form method="post" action="{% url 'cancel_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                            {% with order.get_order_status_display as status %}
+                            <button type="submit" class="cancel-button" {% if status == "Dispatched" or status == "Canceled" or status == "Delivered" %}disabled{% endif %}>Cancel Order</button>
+                            {% endwith %}
+                        </form>
+                        <a href="{% url 'order_items' order.order_id %}" class="items-button">Order Items</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'home' %}" class="back-button">Back to Home</a>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .orders-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(33.333% - 40px); /* Three cards per row with gaps */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .order-card h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .order-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .status-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #f1c40f;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .delivered-tag {
+            background-color: #2ecc71;
+        }
+
+        .canceled-tag {
+            background-color: #e74c3c;
+        }
+
+        .button {
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .track-button {
+            background-color: #3498db;
+        }
+
+        .track-button:hover {
+            background-color: #2980b9;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        .items-button {
+            background-color: #2ecc71;
+        }
+
+        .items-button:hover {
+            background-color: #27ae60;
+        }
+
+        .disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .back-button {
+            display: block;
+            width: 120px;
+            padding: 10px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .smart-assistant-form {
+            position: fixed;
+            right: 0;
+            bottom: 10%;
+            width: 300px;
+            
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button i {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Orders</h1>
+    <div class="orders-container">
+        {% for order in orders %}
+            <div class="order-card">
+                {% if order.get_order_status_display == "Delivered" %}
+                    <div class="status-tag delivered-tag">Delivered</div>
+                {% elif order.get_order_status_display == "Canceled" %}
+                    <div class="status-tag canceled-tag">Canceled</div>
+                {% endif %}
+                <h3>Order ID: {{ order.order_id }}</h3>
+                <p>Date: {{ order.order_date }}</p>
+                <p>Status: {{ order.get_order_status_display }}</p>
+                <p>Total Price: ${{ order.total_price }}</p>
+                {% if order.get_order_status_display == "Canceled" %}
+                    <button class="button track-button disabled" disabled>Track Order</button>
+                    <button class="button cancel-button disabled" disabled>Cancel Order</button>
+                {% else %}
+                    <form method="post" action="{% url 'track_order' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                        <button type="submit" class="button track-button">Track Order</button>
+                    </form>
+                    <form method="post" action="{% url 'cancleorder' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                        {% if order.get_order_status_display in "Dispatched,Canceled,Delivered" %}
+                            <button class="button cancel-button disabled" disabled>Cancel Order</button>
+                        {% else %}
+                            <button type="submit" class="button cancel-button">Cancel Order</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+                <a href="{% url 'order_items' order.order_id %}" class="button items-button">Order Items</a>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'home' %}" class="back-button">Back to Home</a>
+    
+<div class="smart-assistant-form">
+    <form action="{% url 'smart' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" id="assistant-button">Smart Assistant <i class="fa fa-microphone"></i></button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

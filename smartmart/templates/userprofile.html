@@ -1,0 +1,473 @@
+{% comment %} 
+      {% load static %}
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Profile</title>
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0)), url(bgabout.jpg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: black;
+          }
+      
+          .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+      
+          .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+      
+          {% comment %} .logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 10px;
+          } {% endcomment 
+          .logo{
+            width: 180px;
+            cursor: pointer;
+            border-radius: 180px;
+        }
+      
+          h1 {
+            margin: 0;
+          }
+      
+          .profile-container {
+            display: flex;
+            align-items: flex-start;
+          }
+      
+          .profile-content {
+            margin-right: 20px;
+          }
+      
+          .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+          }
+      
+          p {
+            margin-bottom: 5px;
+          }
+      
+          .shop {
+            border-radius: 30px;
+          }
+      
+          a {
+            color: black;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+            <h1>Smartmart Online Ordering and Delivery Platform</h1>
+          </div>
+          <div class="profile-container">
+            <div class="profile-content">
+              <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+              <h1>User Profile</h1>
+              <p>User Name: {{ user.user_fname }} {{ user.user_lname }}</p>
+              <p>Email: {{ user.user_mail }}</p>
+              <p>Date of Birth: {{ user.user_dob }}</p>
+              <p>Phone Number: {{ user.user_phonenumber }}</p>
+            </div>
+            <video id="autoplay-video" auto muted loop class="shop" width="400" height="400">
+              <source src="{% static 'myapp/images/9f9480c497b399eed52252a18d110623.mp4' %}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        {% comment %} <a href="{% url 'logout' %}">Logout</a> {% endcomment 
+        <script>
+          window.onload = function() {
+            var video = document.getElementById('autoplay-video');
+            video.play().catch(function(error) {
+              console.error('Autoplay was prevented:', error);
+            });
+          };
+        </script>
+      </body>
+      </html>
+       {% endcomment %}
+{% comment %} 
+
+       {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+
+
+
+    h1 {
+      margin: 0;
+    }
+
+    .profile-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 5px;
+    }
+
+    .edit-button {
+      color: black;
+      background-color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+      <h1>MegaMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="profile-container">
+      <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+      <h2>Profile</h2>
+      <p>First Name: {{ user.user_fname }}</p>
+      <p>Last Name: {{ user.user_lname }}</p>
+      <p>Email: {{ user.user_mail }}</p>
+      <p>Gender: Male</p> <!-- Replace with dynamic gender if available -->
+      <p>Phone: {{ user.user_phonenumber }}</p>
+      <a href="#" class="edit-button">Edit</a>
+    </div>
+  </div>
+</body>
+</html> {% endcomment %}
+
+ 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .profile-container {
+      background: linear-gradient(to bottom right, #5f9ea0, #1e90ff);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+    
+    .label {
+      color: #ffd700; /* Gold color for labels */
+      font-weight: bold;
+    }
+
+    .edit-button {
+      color: black;
+      background-color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-top: 20px;
+      align-self: center;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+  }
+
+  .message.error {
+      background-color: #ff4d4d;
+      color: white;
+  }
+
+  .message.success {
+      background-color: #4caf50;
+      color: white;
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+      <h1>SmartMart Online Product Ordering and Shopping</h1>
+      <a href="{% url 'home' %}" class="edit-button">Back</a>
+
+    </div>
+    <div class="profile-container">
+      <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+      <h2>Profile</h2>
+      {% if messages %}
+      {% for message in messages %}
+          <div class="message {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+  {% endif %}
+      <p><span class="label">First Name:</span> {{ user.user_fname }}</p>
+      <p><span class="label">Last Name:</span>{{ user.user_lname }}</p>
+      <p><span class="label">Email:</span>{{ user.user_mail }}</p>
+      {% comment %} <p>Gender: Male</p> <!-- Replace with dynamic gender if available --> {% endcomment %}
+      <p><span class="label">DOB:</span>{{ user.user_dob }}</p>
+      <p><span class="label">Contact:</span>{{ user.user_phonenumber }}</p>
+      
+    </div>
+    
+    <a href="{% url 'edit_profile' %}" class="edit-button">Edit</a>
+  </div>
+</body>
+</html> 
+{% comment %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .profile-container {
+      background: linear-gradient(to bottom right, #5f9ea0, #1e90ff);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 500px;
+      text-align: left;
+    }
+
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      margin-bottom: 20px;
+    }
+
+    .profile-container p {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .label {
+      color: #ffd700; /* Gold color for labels */
+      font-weight: bold;
+    }
+
+    .edit-button {
+      color: black;
+      background-color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-top: 20px;
+      align-self: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+      <h1>MegaMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="profile-container">
+      <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+      <h2>Profile</h2>
+      <p><span class="label">First Name:</span> {{ user.user_fname }}</p>
+      <p><span class="label">Last Name:</span> {{ user.user_lname }}</p>
+      <p><span class="label">Email:</span> {{ user.user_mail }}</p>
+      <p><span class="label">Gender:</span> Male</p> <!-- Replace with dynamic gender if available -->
+      <p><span class="label">Phone:</span> {{ user.user_phonenumber }}</p>
+   
+    </div>
+    <a href="#" class="edit-button">Edit</a>
+  </div>
+</body>
+</html> {% endcomment %}

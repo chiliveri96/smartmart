@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-image: url("{% static 'myapp/images/bgabout.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      object-fit: contain;
+      margin-right: 10px;
+      width: 180px;
+      cursor: pointer;
+      border-radius: 180px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .profile-container {
+      background: linear-gradient(to bottom right, #5f9ea0, #1e90ff);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 500px;
+      width: 100%; /* Ensure it scales to the max width */
+      text-align: left;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+    
+    .label {
+      color: #ffd700; /* Gold color for labels */
+      font-weight: bold;
+    }
+
+    .edit-button,
+    .back-button {
+      color: black;
+      background-color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-top: 20px;
+      align-self: center;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo" class="logo">
+      <h1>SmartMart Online Product Ordering and Shopping</h1>
+    </div>
+    <div class="profile-container">
+      <img src="{% static 'myapp/images/profileimg.png' %}" alt="Profile Picture" class="profile-image">
+      <h2>Profile</h2>
+      <p><span class="label">User Name:</span> {{ owner.o_name }}</p>
+      {% comment %} <p><span class="label">Last Name:</span>{{ user.user_lname }}</p> {% endcomment %}
+      <p><span class="label">Email:</span>{{ owner.o_mail }}</p>
+      {% comment %} <p>Gender: Male</p> <!-- Replace with dynamic gender if available --> {% endcomment %}
+      <p><span class="label">DOB:</span>{{ owner.o_dob }}</p>
+      <p><span class="label">Address:</span>{{ owner.o_address }}</p>
+      <p><span class="label">Contact:</span>{{ owner.o_phonenumber }}</p>
+    </div>
+    <div class="button-container">
+      <a href="/shopownerprofile_op" class="back-button">Back</a>
+      <a href="/edit_ownerprofile" class="edit-button">Edit</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Delivered</title>
+    <style>
+        .success-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .success-gif {
+            width: 200px;
+            height: 200px;
+        }
+        .done-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <h1>Order Delivered Successfully!</h1>
+        <p>Order ID: {{ order.order_id }}</p>
+        <p>Total Price: ${{ total_price }}</p>
+        <img src="{% static 'myapp/images/orderdelivery1.gif' %}" alt="Success" class="success-gif">
+        <div class="done-button">
+            <form action="{% url 'delivery_boy_home' %}" method="get">
+                <button type="submit">Done</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

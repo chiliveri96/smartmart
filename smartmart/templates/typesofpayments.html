@@ -1,0 +1,205 @@
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>types of payment methods</title>
+   
+</head>
+<body>
+   
+    <form method="POST" action="/payment/">{% csrf_token %}
+        <button class="btn btn-primary" type="submit">Online Payments</button>
+        </form>
+
+ {% comment %} <form method="POST" action="{% url 'cashondelivery' %}">{% csrf_token %}
+        <button class="btn btn-primary" type="submit">Cash On Delivery</button>
+        </form>  ***************{% endcomment %
+        <form method="POST" action="{% url 'cashondelivery' %}">{% csrf_token %}
+            <button class="btn btn-primary" type="submit">Cash On Delivery</button>
+            </form>
+        <form method="POST" action="{% url 'cashoncollect' %}">{% csrf_token %}
+            <button class="btn btn-primary" type="submit">Cash On Collect</button>
+            </form>
+</body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Payment Methods</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        header {
+            flex: 1;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .payment-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .payment-container form {
+            margin-bottom: 10px;
+        }
+        
+        .payment-container .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .payment-container .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .payment-container .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        .payment-container .btn i {
+            margin-right: 10px;
+        }
+        
+        .gif-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gif-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: scaleIn 1s ease-in-out;
+        }
+        
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            width: 100%;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .payment-container {
+                width: 100%;
+            }
+            
+            .gif-container img {
+                max-width: 300px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="container">
+        
+        <div class="payment-container">
+            <header>
+                <h1>Choose Your Payment Method</h1>
+            </header>
+            <form method="POST" action="/payment/">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-credit-card"></i> Online Payments
+                </button>
+            </form>
+
+            <form method="POST" action="{% url 'cashondelivery' %}">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-money-bill-wave"></i> Cash On Delivery
+                </button>
+            </form>
+
+            <form method="POST" action="{% url 'cashoncollect' %}">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-hand-holding-usd"></i> Cash On Collect
+                </button>
+            </form>
+        </div>
+        <div class="gif-container">
+            <img src="{% static 'myapp/images/typeofpay.gif' %}" alt="Payment Methods GIF">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 SMARTMART. All rights reserved.</p>
+    </footer>
+</body>
+</html>

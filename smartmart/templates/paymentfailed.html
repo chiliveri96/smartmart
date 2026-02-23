@@ -1,0 +1,145 @@
+{% comment %} {% extends 'firstapp/basic.html' %}
+{% load static %}
+{% block title %}
+
+{% endblock %}
+{% block css %}
+<style>
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="info">
+<div class="container" style="text-align:center;">
+<h1>Payment Failed</h1>
+<h3>Sorry! Your payment has been failed. Please try again.</h3>
+<br>
+<p class="mainmessage">
+In case your money has been deducted, money will be autorefunded in 7-10 days.
+</p>
+<br>
+<p class="mainmessage">Thank You for choosing us. You can contact us for any queries or details.</p>
+</div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+
+</script>
+{% endblock %} {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        h3 {
+            font-size: 22px;
+            color: #555;
+            margin: 10px 0;
+        }
+        
+        .mainmessage {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-top: 20px;
+        }
+        
+        .gif-container {
+            margin-top: 30px;
+        }
+        
+        .gif-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-container {
+            margin-top: 20px;
+        }
+        
+        .btn-container a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-container a:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Failed</h1>
+        <h3>Sorry! Your payment has failed.</h3>
+        <div class="gif-container">
+            <img src="{% static 'myapp/images/payment_failed.webp' %}" alt="Payment Failed">
+        </div>
+        <p class="mainmessage">In case your money has been deducted, it will be autorefunded in 7-10 days.</p>
+        <p class="mainmessage">Thank you for choosing us. Please try again or contact us for assistance.</p>
+        <div class="btn-container">
+            <a href="{% url 'user_orders' %}">Go Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Add any JavaScript logic here
+    </script>
+</body>
+</html>

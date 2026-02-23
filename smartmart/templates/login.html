@@ -1,0 +1,246 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form | Dan Aleko</title>
+  
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: url("{% static 'myapp/images/bgabout.jpg' %}") no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+      .container{
+        width: 100%;
+        min-height: 100vh;
+       
+        background-size: cover;
+        background-position: center;
+        padding: 10px 8%;
+    }
+      .wrapper{
+        width: 420px;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, .2);
+        backdrop-filter: blur(9px);
+        color: #fff;
+        border-radius: 12px;
+        padding: 30px 40px;
+      }
+      .wrapper h1{
+        font-size: 36px;
+        text-align: center;
+      }
+      .wrapper .input-box{
+        position: relative;
+        width: 100%;
+        height: 50px;
+      
+        margin: 30px 0;
+      }
+      .input-box input{
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        border: 2px solid rgba(255, 255, 255, .2);
+        border-radius: 40px;
+        font-size: 16px;
+        color: #fff;
+        padding: 20px 45px 20px 20px;
+      }
+      .input-box input::placeholder{
+        color: #fff;
+      }
+      .input-box i{
+        position: absolute;
+        right: 20px;
+        top: 30%;
+        transform: translate(-50%);
+        font-size: 20px;
+      
+      }
+      .wrapper .remember-forgot{
+        display: flex;
+        justify-content: space-between;
+        font-size: 14.5px;
+        margin: -15px 0 15px;
+      }
+      .remember-forgot label input{
+        accent-color: #fff;
+        margin-right: 3px;
+      
+      }
+      .remember-forgot a{
+        color: #fff;
+        text-decoration: none;
+      
+      }
+      .remember-forgot a:hover{
+        text-decoration: underline;
+        color: red;
+        
+      }
+      .wrapper .btn{
+        width: 100%;
+        height: 45px;
+        background: #fff;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+      }
+      .wrapper .register-link{
+        font-size: 14.5px;
+        text-align: center;
+        margin: 20px 0 15px;
+      
+      }
+      .register-link p a{
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .register-link p a:hover{
+        text-decoration: underline;
+        color: greenyellow;
+      }
+      .logo{
+        width: 180px;
+        cursor: pointer;
+        border-radius: 180px;
+        margin-top: 20px;
+    }
+    .container .wrapper{
+        margin-left: 30%;
+       
+    }
+   .container .top
+    {
+        display: flex;
+        
+        max-width: 100%;
+        align-items: center;
+        color: #fff;
+
+    }
+   .container .top h1{
+    justify-content: center;
+    margin-left: 15px;
+    background-color: blue;
+    padding:10px 5px;
+    font-size:30px;
+    border-radius: 8px;
+    }
+    .container .top a{
+        justify-content: center;
+        margin-left: 45px;
+        text-decoration: none;
+        background-color: black;
+        color: #fff;
+        margin-bottom: 65px;
+        padding: 10px;
+        border-radius: 10px;
+        }
+
+        .container .top a:hover{
+           
+            text-decoration: underline;
+            background-color:blue;
+            color: #fff;
+           
+            }
+        
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+    <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="logo" class="logo">
+    <h1>SmartMart online ordering and delivery platform</h1>
+    <a href='/openwindow'>Home</a>
+</div>
+  <div class="wrapper">
+    
+    <form action="{% url 'login_operation' %}" method="POST" >
+      {% csrf_token %}
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Email"  name="mail" id="email" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password"  id="password" name="password" required>
+        <i class='bx bxs-lock-alt' ></i>
+        <p>
+          {% if error_message1 %}
+          <p>{{ error_message1 }}</p>
+          
+          {% endif %}
+      </div>
+      <div class="remember-forgot">
+        <p></p>
+        <p>
+          {% if error_message2 %}
+          <p>{{ error_message2 }}</p>
+          
+          {% endif %}
+        {% comment %} <a href="/forgotpassword">Forgot Password?</a>
+         {% endcomment %}
+         <a href="/password_options">Forgot Password?</a>
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>Create a new Account? <a href="/signup">Register</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+<script>document.addEventListener('DOMContentLoaded', function() {
+  // Function to speak a message
+  function speak(message) {
+      const speech = new SpeechSynthesisUtterance(message);
+      speech.rate = 1;
+      speech.pitch = 1;
+      window.speechSynthesis.speak(speech);
+  }
+
+  // Speak a message when the page loads
+  window.addEventListener('load', () => {
+      speak("Welcome to SmartMart again!, Please enter your correct credentials!");
+  });
+
+  // Add click event listener to the email text box
+  const emailTextBox = document.getElementById('email');
+  emailTextBox.addEventListener('click', function() {
+      speak('Please! Enter the email');
+  });
+
+  // Add click event listener to the password text box
+  const passwordTextBox = document.getElementById('password');
+  passwordTextBox.addEventListener('click', function() {
+      speak('Please! Enter the password');
+  });
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+{% comment %} {% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h2>Deliver Order</h2>
+    <form method="post" >
+        {% csrf_token %}
+        <p>Order ID: {{ order.order_id }}</p>
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp"><br>
+        <button type="submit">Deliver Order</button>
+    </form>
+</body>
+{% comment %} </html> 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h2>Deliver Order</h2>
+    <p>Order ID: {{ order.order_id }}</p>
+    <p>Total Price: {{ order.total_price }}</p>
+    <p>Order Status: {{ order.order_status }}</p>
+    <form method="post" action="{% url 'deliver_order' order.order_id %}">
+        {% csrf_token %}
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required><br>
+        <button type="submit">Confirm Delivery</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h2>Deliver Order</h2>
+    <p>Order ID: {{ order.order_id }}</p>
+    <p>Total Price: {{ order.total_price }}</p>
+    <p>Order Status: {{ order.get_order_status_display }}</p>
+    <form method="post" action="{% url 'deliver_order' order.order_id %}">
+        {% csrf_token %}
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required><br>
+        <button type="submit">Confirm Delivery</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} <!DOCTYPE html> 
+<html>
+<head>
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h2>Deliver Order</h2>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Product: {{ order.product }}</p>
+    <p>Quantity: {{ order.quantity }}</p>
+    <p>Customer: {{ order.customer.username }}</p>
+    <p>Address: {{ order.customer.address }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <label for="otp">Enter OTP:</label>
+        <input type="text" name="otp" id="otp" required><br>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <button type="submit">Submit OTP</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h2>Deliver Order</h2>
+    <p>Order ID: {{ order.order_id }}</p>
+    <p>Total Price: {{ order.total_price }}</p>
+    <p>Order Status: {{ order.get_order_status_display }}</p>
+    <form method="post" action="{% url 'deliver_order' order.order_id %}">
+        {% csrf_token %}
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required><br>
+        <button type="submit">Confirm Delivery</button>
+    </form>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliver Order</title>
+</head>
+<body>
+    <h1>Deliver Order</h1>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Order Status: {{ order.order_status }}</p>
+    
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliver Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        p.error {
+            color: red;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deliver Order</h1>
+        <p>Order ID: {{ order.order_id }}</p>
+        <p>Order Status: {{ order.order_status }}</p>
+        
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            <label for="otp">Enter OTP:</label>
+            <input type="text" id="otp" name="otp" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

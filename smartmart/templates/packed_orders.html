@@ -1,0 +1,138 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Packed Orders</title>
+</head>
+<body>
+    <h2>Packed Orders</h2>
+    <ul>
+        {% for order in orders %}
+        <li>
+            Order ID: {{ order.order_id }} - Total Price: {{ order.total_price }}
+            <a href="{% url 'pick_order' order_id=order.order_id %}">Pick Order</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+{% comment %} </html> {% endcomment %
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Packed Orders</title>
+</head>
+<body>
+    <h1>Packed Orders within 10km</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <ul>
+        {% for order in orders %}
+            {% comment %} <li>Order ID: {{ order.id }} - Address: {{ order.address }}</li> {% endcomment %
+            <li>
+                Order ID: {{ order.order_id }} -  Address: {{ order.address }} - Total Price: {{ order.total_price }}
+                <a href="{% url 'pick_order' order_id=order.order_id %}">Pick Order</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'delivery_boy_home' %}" class="btn">Back</a>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Packed Orders within 10km</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #acb6e5); /* Gradient background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .back-home-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .back-home-btn:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .order {
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .order:first-child {
+            border-top: none;
+        }
+        .order-details {
+            margin-bottom: 10px;
+        }
+        .btn {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'delivery_boy_home' %}" class="back-home-btn">Back to Home</a>
+    <div class="container">
+       
+        <h1>Packed Orders within 10km</h1>
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div id="orders-list">
+            {% for order in orders %}
+                <div class="order">
+                    <div class="order-details">
+                        <strong>Order ID:</strong> {{ order.order_id }}<br>
+                        <strong>Address:</strong> {{ order.address }}<br>
+                        <strong>Total Price:</strong> ₹{{ order.total_price }}<br>
+                        <strong>Status:</strong> {{ order.order_status }}<br>
+                        <strong>Ordered Date:</strong> {{ order.order_date }}<br>
+                    </div>
+                    <a href="{% url 'pick_order' order_id=order.order_id %}" class="btn">Pick Order</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

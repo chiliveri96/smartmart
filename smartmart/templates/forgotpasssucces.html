@@ -1,0 +1,55 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgot password success</title>
+    <style>
+        body{
+            padding: 10px;
+            margin: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .atag{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20%;
+
+        }
+        .atag a{
+            text-decoration: none;
+            width: fit-content;
+            height: fit-content;
+            background-color: black;
+            color: white;
+            padding:10px 30px;
+            border-radius: 5px;
+
+        }
+        .atag a:hover{
+            color: black;
+            background-color: wheat;
+            
+        }
+        h3{
+            color: rgb(42, 227, 42);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{% static 'myapp/images/pass_reset.gif' %}" alt="missed">
+        <h3>password sent to registered mail successfully</h3>
+        <br>
+        <div class="atag">
+        <a href="/login">Okay</a>
+    </div>
+    </div>
+</body>
+</html>

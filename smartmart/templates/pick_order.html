@@ -1,0 +1,78 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Pick Order</title>
+</head>
+<body>
+    <h2>Pick Order</h2>
+    <form method="post" action="{% url 'deliver_order' %}">
+        {% csrf_token %}
+        <p>Order ID: {{ order.order_id }}</p>
+        <p>Total Price: {{ order.total_price }}</p>
+        <button type="submit">Pick Order</button>
+    </form>
+</body>
+</html> {% endcomment %}<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pick Order</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f2f5;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px;
+            }
+            h2 {
+                color: #007bff;
+            }
+            p {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+            form {
+                margin-top: 20px;
+            }
+            button {
+                background-color: #28a745;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                transition: background-color 0.3s ease;
+            }
+            button:hover {
+                background-color: #218838;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Pick Order</h2>
+            <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+            <p><strong>Order Status:</strong> {{ order.order_status }}</p>
+            <form method="post" action="{% url 'pick_order' order.order_id %}">
+                {% csrf_token %}
+                <button type="submit">Confirm Pick</button>
+            </form>
+        </div>
+    </body>
+    </html>
+    

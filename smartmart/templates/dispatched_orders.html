@@ -1,0 +1,372 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatched Orders</title>
+</head>
+<body>
+    <h2>Dispatched Orders</h2>
+    <ul>
+        {% for order in orders %}
+            <li>
+                {{ order.product }} - {{ order.quantity }} - {{ order.customer.username }}
+                <form method="get" action="{% url 'deliver_order' order.order_id %}">
+                    {% csrf_token %}
+                    <button type="submit">Deliver Order</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatched Orders</title>
+</head>
+<body>
+    <h2>Dispatched Orders</h2>
+    <ul>
+        {% for order in orders %}
+            <li>
+                Order ID: {{ order.order_id }}, Total Price: {{ order.total_price }}
+                <a href="{% url 'picked_order_route' order.order_id %}">show Route</a>
+                <a href="{% url 'deliver_order' order.order_id %}">Deliver Order</a>
+
+            </li>
+        {% endfor %}
+    </ul>
+   
+</body>
+</html> {% endcomment %}
+{% comment %} 
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatched Orders</title>
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> {% endcomment %
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+        
+        .logo img {
+            width: 50px;
+            height: auto;
+            margin-right: 20px;
+        }
+        
+        header h1 {
+            margin: 0;
+        }
+        
+        main {
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #333;
+        }
+        
+        .order-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .order-item {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-item p {
+            margin: 5px 0;
+        }
+        
+        .order-actions {
+            margin-top: 10px;
+        }
+        
+        .order-actions a {
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            margin-right: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .order-actions a i {
+            margin-right: 5px;
+        }
+        
+        .route-btn {
+            background-color: #007bff;
+        }
+        
+        .deliver-btn {
+            background-color: #28a745;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        
+            .logo img {
+                width: 40px;
+            }
+        
+            header h1 {
+                margin-top: 10px;
+                font-size
+                : 1.5rem;
+            }
+        
+            .order-actions a {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static  'myapp/images/smlogo.jpg' %}" alt="Logo">
+            
+    <h1>SmartMart online ordering and delivery platform</h1>>
+        </div>
+        <h1>Dispatched Orders</h1>
+    </header>
+    <main>
+        <h2>Orders Ready for Delivery</h2>
+        <ul class="order-list">
+            {% for order in orders %}
+                <li class="order-item">
+                    <p>Order ID: {{ order.order_id }}</p>
+                    <p>Total Price: ${{ order.total_price }}</p>
+                    <div class="order-actions">
+                        <a class="route-btn" href="{% url 'picked_order_route' order.order_id %}">
+                            <i class="fas fa-map-marker-alt"></i> Show Route
+                        </a>
+                        <a class="deliver-btn" href="{% url 'deliver_order' order.order_id %}">
+                            <i class="fas fa-truck"></i> Deliver Order
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Supermarket. All Rights Reserved.</p>
+    </footer>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatched Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+        
+        .logo img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        
+        header h1 {
+            margin: 0;
+            flex: 1;
+        }
+        
+        .back-btn {
+            margin-left: auto;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        
+        main {
+            padding: 20px;
+            flex: 1;
+        }
+        
+        h2 {
+            color: #333;
+        }
+        
+        .order-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .order-item {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-item p {
+            margin: 5px 0;
+        }
+        
+        .order-actions {
+            margin-top: 10px;
+        }
+        
+        .order-actions a {
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            margin-right: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .order-actions a i {
+            margin-right: 5px;
+        }
+        
+        .route-btn {
+            background-color: #007bff;
+        }
+        
+        .deliver-btn {
+            background-color: #28a745;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        
+            .logo img {
+                width: 100px;
+                height: 100px;
+            }
+        
+            header h1 {
+                margin-top: 10px;
+                font-size: 1.5rem;
+            }
+        
+            .order-actions a {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'myapp/images/smlogo.jpg' %}" alt="Logo">
+        </div>
+        <h1>SmartMart online ordering and delivery platform</h1>
+        <a href="{% url 'delivery_boy_home' %}" class="back-btn">Back</a>
+    </header>
+    <main>
+        <h2>Orders Ready for Delivery</h2>
+        <ul class="order-list">
+            {% for order in orders %}
+                <li class="order-item">
+                    <p>Order ID: {{ order.order_id }}</p>
+                    <p>Customer Name:{{order.user.user_fname}}{{order.user.user_fname}}</p>
+                    <p>Customer Contact: {{order.user.user_phonenumber}}</p>
+
+                    <p>Customer Address:{{order.order_deliverysoc}}</p>
+                    <p>Shop name:{{order.supermarket.s_name}}</p>
+                    <p>Shop Contact: {{order.shop_owner.o_phonenumber}}</p>
+                    
+                    <p>Shop Address:{{order.order_deliverydec}}</p>
+                    <p>Total order Price: ₹{{ order.total_price }}</p>
+                    <div class="order-actions">
+                        <a class="route-btn" href="{% url 'picked_order_route' order.order_id %}">
+                            <i class="fas fa-map-marker-alt"></i> Show Route
+                        </a>
+                        <a class="deliver-btn" href="{% url 'deliver_order' order.order_id %}">
+                            <i class="fas fa-truck"></i> Deliver Order
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Supermarket. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

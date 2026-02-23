@@ -1,0 +1,107 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <p>Order Total: ₹{{ order.total_price }}</p>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form id="payment-form" method="post">
+        {% csrf_token %}
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_key_id }}"
+            data-amount="{{ amount }}"
+            data-currency="INR"
+            data-order_id="{{ razorpay_order_id }}"
+            data-buttontext="Pay with Razorpay"
+            data-name="Your Store"
+            data-description="Order {{ order.order_id }}"
+            data-image="/your_logo.png"
+            data-prefill.name="{{ user.user_fname }} {{ user.user_lname }}"
+            data-prefill.email="{{ user.user_mail }}"
+            data-theme.color="#F37254"
+        ></script>
+        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+    </form>
+    <script>
+        var paymentForm = document.getElementById('payment-form');
+        paymentForm.onsubmit = function(event) {
+            event.preventDefault();
+            var paymentIdInput = document.getElementById('razorpay_payment_id');
+            var razorpayOptions = {
+                "handler": function (response){
+                    paymentIdInput.value = response.razorpay_payment_id;
+                    paymentForm.submit();
+                }
+            };
+            var razorpay = new Razorpay(razorpayOptions);
+            razorpay.open();
+        };
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <p>Order Total: ₹{{ order.total_price }}</p>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form id="payment-form" method="post">
+        {% csrf_token %}
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_key_id }}"
+            data-amount="{{ amount }}"
+            data-currency="INR"
+            data-order_id="{{ razorpay_order_id }}"
+            data-buttontext="Pay with Razorpay"
+            data-name="Your Store"
+            data-description="Order {{ order.order_id }}"
+            data-image="/your_logo.png"
+            data-prefill.name="{{ user.user_fname }} {{ user.user_lname }}"
+            data-prefill.email="{{ user.user_mail }}"
+            data-theme.color="#F37254"
+        ></script>
+        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+    </form>
+    <script>
+        var paymentForm = document.getElementById('payment-form');
+        paymentForm.onsubmit = function(event) {
+            event.preventDefault();
+            var paymentIdInput = document.getElementById('razorpay_payment_id');
+            var razorpayOptions = {
+                "key": "{{ razorpay_key_id }}",
+                "amount": "{{ amount }}",
+                "currency": "INR",
+                "order_id": "{{ razorpay_order_id }}",
+                "handler": function (response){
+                    paymentIdInput.value = response.razorpay_payment_id;
+                    paymentForm.submit();
+                },
+                "prefill": {
+                    "name": "{{ user.user_fname }} {{ user.user_lname }}",
+                    "email": "{{ user.user_mail }}"
+                },
+                "theme": {
+                    "color": "#F37254"
+                }
+            };
+            var razorpay = new Razorpay(razorpayOptions);
+            razorpay.open();
+        };
+    </script>
+</body>
+</html>
